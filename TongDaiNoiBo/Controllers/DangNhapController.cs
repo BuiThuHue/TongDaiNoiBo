@@ -21,26 +21,68 @@ namespace TongDaiNoiBo.Controllers
             _context = context;
         }
 
+        // =========================================================
+        // ĐĂNG NHẬP
+        // POST: /api/DangNhap
+        // =========================================================
+
         [HttpPost]
-        public async Task<IActionResult> DangNhap(DangNhapDTO dto)
+        public async Task<IActionResult> DangNhap(
+            [FromBody] DangNhapDTO dto)
         {
             try
             {
-                // Tìm tài khoản
-                var taiKhoan = await _context.TaiKhoan
-                    .FirstOrDefaultAsync(x =>
-                        x.TenDangNhap == dto.TenDangNhap);
+                // =====================================================
+                // 1. KIỂM TRA DỮ LIỆU
+                // =====================================================
 
-                // Không tìm thấy tài khoản
+                if (dto == null)
+                {
+                    return BadRequest(new
+                    {
+                        ThongBao = "Dữ liệu đăng nhập không hợp lệ!"
+                    });
+                }
+
+                if (string.IsNullOrWhiteSpace(dto.TenDangNhap))
+                {
+                    return BadRequest(new
+                    {
+                        ThongBao = "Vui lòng nhập tên đăng nhập!"
+                    });
+                }
+
+                if (string.IsNullOrWhiteSpace(dto.MatKhau))
+                {
+                    return BadRequest(new
+                    {
+                        ThongBao = "Vui lòng nhập mật khẩu!"
+                    });
+                }
+
+                // =====================================================
+                // 2. TÌM TÀI KHOẢN
+                // =====================================================
+
+                var taiKhoan =
+                    await _context.TaiKhoan
+                        .FirstOrDefaultAsync(
+                            x => x.TenDangNhap == dto.TenDangNhap
+                        );
+
                 if (taiKhoan == null)
                 {
                     return Unauthorized(new
                     {
-                        ThongBao = "Tên đăng nhập hoặc mật khẩu không đúng!"
+                        ThongBao =
+                            "Tên đăng nhập hoặc mật khẩu không đúng!"
                     });
                 }
 
-                // Kiểm tra tài khoản bị khóa
+                // =====================================================
+                // 3. KIỂM TRA TRẠNG THÁI
+                // =====================================================
+
                 if (taiKhoan.TrangThai != "HoatDong")
                 {
                     await GhiLog(
@@ -56,18 +98,33 @@ namespace TongDaiNoiBo.Controllers
                     });
                 }
 
-                // Kiểm tra mật khẩu bằng BCrypt
-                bool matKhauDung = BCrypt.Net.BCrypt.Verify(
-                    dto.MatKhau,
-                    taiKhoan.MatKhau
-                );
+                // =====================================================
+                // 4. KIỂM TRA MẬT KHẨU BCRYPT
+                // =====================================================
 
-                // MẬT KHẨU SAI
+                bool matKhauDung;
+
+                try
+                {
+                    matKhauDung =
+                        BCrypt.Net.BCrypt.Verify(
+                            dto.MatKhau,
+                            taiKhoan.MatKhau
+                        );
+                }
+                catch
+                {
+                    matKhauDung = false;
+                }
+
+                // =====================================================
+                // 5. MẬT KHẨU SAI
+                // =====================================================
+
                 if (!matKhauDung)
                 {
                     taiKhoan.SoLanDangNhapSai++;
 
-                    // Sai đủ 3 lần → khóa tài khoản
                     if (taiKhoan.SoLanDangNhapSai >= 3)
                     {
                         taiKhoan.TrangThai = "Khoa";
@@ -104,7 +161,10 @@ namespace TongDaiNoiBo.Controllers
                     });
                 }
 
-                // ĐĂNG NHẬP THÀNH CÔNG
+                // =====================================================
+                // 6. ĐĂNG NHẬP THÀNH CÔNG
+                // =====================================================
+
                 taiKhoan.SoLanDangNhapSai = 0;
 
                 await _context.SaveChangesAsync();
@@ -116,9 +176,9 @@ namespace TongDaiNoiBo.Controllers
                     "ThanhCong"
                 );
 
-                // ==============================
-                // TẠO JWT TOKEN
-                // ==============================
+                // =====================================================
+                // 7. TẠO JWT CLAIM
+                // =====================================================
 
                 var claims = new[]
                 {
@@ -143,27 +203,42 @@ namespace TongDaiNoiBo.Controllers
                     )
                 };
 
+                // =====================================================
+                // 8. TẠO KEY
+                // =====================================================
+
                 var key = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(
                         "TongDaiNoiBo_Secure_Key_2026_VeryStrong!"
                     )
                 );
 
-                var credentials = new SigningCredentials(
-                    key,
-                    SecurityAlgorithms.HmacSha256
-                );
+                var credentials =
+                    new SigningCredentials(
+                        key,
+                        SecurityAlgorithms.HmacSha256
+                    );
+
+                // =====================================================
+                // 9. TẠO TOKEN
+                // =====================================================
 
                 var token = new JwtSecurityToken(
+                    issuer: "TongDaiNoiBo",
+                    audience: "TongDaiNoiBoClient",
                     claims: claims,
                     expires: DateTime.UtcNow.AddHours(2),
                     signingCredentials: credentials
                 );
 
-                var accessToken = new JwtSecurityTokenHandler()
-                    .WriteToken(token);
+                string accessToken =
+                    new JwtSecurityTokenHandler()
+                        .WriteToken(token);
 
-                // Trả kết quả đăng nhập
+                // =====================================================
+                // 10. TRẢ KẾT QUẢ
+                // =====================================================
+
                 return Ok(new
                 {
                     ThongBao = "Đăng nhập thành công!",
@@ -179,19 +254,20 @@ namespace TongDaiNoiBo.Controllers
                     VaiTro = taiKhoan.VaiTro
                 });
             }
-            catch (Exception ex)
+            catch
             {
                 return StatusCode(500, new
                 {
-                    ThongBao = "Có lỗi xảy ra khi đăng nhập!",
-                    ChiTiet = ex.Message
+                    ThongBao =
+                        "Có lỗi xảy ra khi đăng nhập. Vui lòng thử lại sau!"
                 });
             }
         }
 
-        // ==============================
-        // HÀM GHI LOG
-        // ==============================
+        // =========================================================
+        // GHI LOG
+        // =========================================================
+
         private async Task GhiLog(
             int maTaiKhoan,
             string hanhDong,
@@ -201,11 +277,18 @@ namespace TongDaiNoiBo.Controllers
             var log = new LogHoatDong
             {
                 MaTaiKhoan = maTaiKhoan,
+
                 HanhDong = hanhDong,
+
                 ThoiGian = DateTime.Now,
+
                 DiaChiIP =
-                    HttpContext.Connection.RemoteIpAddress?.ToString(),
+                    HttpContext.Connection
+                        .RemoteIpAddress?
+                        .ToString(),
+
                 NoiDung = noiDung,
+
                 TrangThai = trangThai
             };
 

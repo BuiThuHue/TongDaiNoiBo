@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Text;
 using TongDaiNoiBo.Data;
+using TongDaiNoiBo.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ==========================================
-// KẾT NỐI MYSQL
+// 1. KẾT NỐI DATABASE MYSQL
 // ==========================================
 
 var connectionString =
@@ -20,8 +22,9 @@ builder.Services.AddDbContext<TongDaiDbContext>(options =>
     options.UseMySQL(connectionString)
 );
 
+
 // ==========================================
-// JWT AUTHENTICATION
+// 2. CẤU HÌNH JWT AUTHENTICATION
 // ==========================================
 
 builder.Services.AddAuthentication(
@@ -29,57 +32,97 @@ builder.Services.AddAuthentication(
 )
 .AddJwtBearer(options =>
 {
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        // Không kiểm tra Issuer
-        ValidateIssuer = false,
+    options.TokenValidationParameters =
+        new TokenValidationParameters
+        {
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
 
-        // Không kiểm tra Audience
-        ValidateAudience = false,
-
-        // Kiểm tra thời hạn Token
-        ValidateLifetime = true,
-
-        // Kiểm tra chữ ký Token
-        ValidateIssuerSigningKey = true,
-
-        // Khóa bí mật dùng để kiểm tra JWT
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(
-                "TongDaiNoiBo_Secure_Key_2026_VeryStrong!"
-            )
-        )
-    };
+            IssuerSigningKey =
+                new SymmetricSecurityKey(
+                    Encoding.UTF8.GetBytes(
+                        "TongDaiNoiBo_Secure_Key_2026_VeryStrong!"
+                    )
+                )
+        };
 });
 
+
 // ==========================================
-// AUTHORIZATION
+// 3. CẤU HÌNH AUTHORIZATION
 // ==========================================
 
 builder.Services.AddAuthorization();
 
+
 // ==========================================
-// CONTROLLERS
+// 4. ĐĂNG KÝ RSA SERVICE
+// ==========================================
+
+builder.Services.AddScoped<RsaService>();
+
+
+// ==========================================
+// 5. CONTROLLER
 // ==========================================
 
 builder.Services.AddControllers();
 
+
 // ==========================================
-// SWAGGER
+// 6. SWAGGER
 // ==========================================
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    // Khai báo JWT Bearer
+    options.AddSecurityDefinition(
+        "Bearer",
+        new OpenApiSecurityScheme
+        {
+            Name = "Authorization",
+
+            Type = SecuritySchemeType.Http,
+
+            Scheme = "bearer",
+
+            BearerFormat = "JWT",
+
+            In = ParameterLocation.Header,
+
+            Description =
+                "Nhập JWT Token theo dạng: Bearer {token}"
+        }
+    );
+
+    // Cho Swagger sử dụng JWT
+    options.AddSecurityRequirement(document =>
+        new OpenApiSecurityRequirement
+        {
+            [
+                new OpenApiSecuritySchemeReference(
+                    "Bearer",
+                    document
+                )
+            ] = []
+        }
+    );
+});
+
 
 // ==========================================
-// BUILD APP
+// 7. TẠO APPLICATION
 // ==========================================
 
 var app = builder.Build();
 
+
 // ==========================================
-// SWAGGER
+// 8. SWAGGER UI
 // ==========================================
 
 if (app.Environment.IsDevelopment())
@@ -89,32 +132,46 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 // ==========================================
-// HTTPS
+// 9. CHO PHÉP CHẠY GIAO DIỆN HTML
+// ==========================================
+
+app.UseDefaultFiles();
+
+app.UseStaticFiles();
+
+
+// ==========================================
+// 10. HTTPS
 // ==========================================
 
 app.UseHttpsRedirection();
 
+
 // ==========================================
-// AUTHENTICATION
+// 11. AUTHENTICATION
 // ==========================================
 
 app.UseAuthentication();
 
+
 // ==========================================
-// AUTHORIZATION
+// 12. AUTHORIZATION
 // ==========================================
 
 app.UseAuthorization();
 
+
 // ==========================================
-// MAP CONTROLLERS
+// 13. MAP CONTROLLERS
 // ==========================================
 
 app.MapControllers();
 
+
 // ==========================================
-// CHẠY ỨNG DỤNG
+// 14. CHẠY CHƯƠNG TRÌNH
 // ==========================================
 
 app.Run();
