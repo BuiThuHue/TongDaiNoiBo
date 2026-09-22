@@ -3,36 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Tổng đài nội bộ</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
     <style>
+
         * {
-            box-sizing: border-box
+            box-sizing: border-box;
         }
 
         body {
             margin: 0;
             background: #f4f7fb;
             color: #1f2937;
-            font-family: Arial,Helvetica,sans-serif
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .btn-primary {
             background: #2563eb;
-            border-color: #2563eb
+            border-color: #2563eb;
         }
 
             .btn-primary:hover {
                 background: #1d4ed8;
-                border-color: #1d4ed8
+                border-color: #1d4ed8;
             }
+
+        /* ================= LOGIN ================= */
 
         #loginPage {
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg,#eaf2ff,#f7f9fc)
+            background: linear-gradient(135deg, #eaf2ff, #f7f9fc);
         }
 
         .login-box {
@@ -41,7 +48,7 @@
             background: #fff;
             padding: 38px;
             border-radius: 18px;
-            box-shadow: 0 15px 45px #0000001a
+            box-shadow: 0 15px 45px #0000001a;
         }
 
         .login-logo {
@@ -54,19 +61,19 @@
             justify-content: center;
             background: #2563eb;
             color: #fff;
-            font-size: 30px
+            font-size: 30px;
         }
 
         .login-box h1 {
             text-align: center;
             font-size: 25px;
-            margin-bottom: 8px
+            margin-bottom: 8px;
         }
 
         .login-subtitle {
             text-align: center;
             color: #6b7280;
-            margin-bottom: 28px
+            margin-bottom: 28px;
         }
 
         .login-message {
@@ -74,12 +81,40 @@
             margin-top: 14px;
             text-align: center;
             color: #dc2626;
-            font-size: 14px
+            font-size: 14px;
         }
+
+        .password-wrapper {
+            position: relative;
+        }
+
+            .password-wrapper input {
+                padding-right: 70px;
+            }
+
+        .toggle-password {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            color: #2563eb;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 5px 8px;
+        }
+
+            .toggle-password:hover {
+                color: #1d4ed8;
+            }
+
+        /* ================= APP ================= */
 
         #app {
             display: none;
-            min-height: 100vh
+            min-height: 100vh;
         }
 
         .sidebar {
@@ -91,7 +126,7 @@
             background: #fff;
             border-right: 1px solid #e5e7eb;
             padding: 22px 15px;
-            z-index: 10
+            z-index: 10;
         }
 
         .brand {
@@ -100,7 +135,7 @@
             gap: 11px;
             padding: 5px 10px 25px;
             border-bottom: 1px solid #edf0f4;
-            margin-bottom: 20px
+            margin-bottom: 20px;
         }
 
         .brand-icon {
@@ -112,18 +147,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 21px
+            font-size: 21px;
         }
 
         .brand-text h2 {
             font-size: 16px;
-            margin: 0
+            margin: 0;
         }
 
         .brand-text p {
             color: #8a94a6;
             font-size: 11px;
-            margin: 3px 0 0
+            margin: 3px 0 0;
         }
 
         .menu-title {
@@ -131,7 +166,7 @@
             font-size: 11px;
             font-weight: bold;
             text-transform: uppercase;
-            padding: 0 11px 9px
+            padding: 0 11px 9px;
         }
 
         .menu-item {
@@ -147,23 +182,24 @@
             font-size: 14px;
             display: flex;
             align-items: center;
-            gap: 11px
+            gap: 11px;
         }
 
-            .menu-item:hover, .menu-item.active {
+            .menu-item:hover,
+            .menu-item.active {
                 background: #eaf1ff;
-                color: #2563eb
+                color: #2563eb;
             }
 
             .menu-item.active {
-                font-weight: 600
+                font-weight: 600;
             }
 
         .logout-area {
             position: absolute;
             bottom: 20px;
             left: 15px;
-            right: 15px
+            right: 15px;
         }
 
         .logout-btn {
@@ -174,12 +210,14 @@
             padding: 11px;
             border-radius: 9px;
             cursor: pointer;
-            font-weight: 600
+            font-weight: 600;
         }
+
+        /* ================= MAIN ================= */
 
         .main {
             margin-left: 245px;
-            min-height: 100vh
+            min-height: 100vh;
         }
 
         .topbar {
@@ -189,39 +227,39 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 32px
+            padding: 0 32px;
         }
 
         .page-title {
             font-size: 20px;
-            font-weight: 700
+            font-weight: 700;
         }
 
         .user-area {
             display: flex;
             align-items: center;
-            gap: 11px
+            gap: 11px;
         }
 
         .status-dot {
             width: 9px;
             height: 9px;
             background: #22c55e;
-            border-radius: 50%
+            border-radius: 50%;
         }
 
         .user-info {
-            text-align: right
+            text-align: right;
         }
 
             .user-info strong {
                 font-size: 13px;
-                display: block
+                display: block;
             }
 
             .user-info span {
                 color: #8a94a6;
-                font-size: 11px
+                font-size: 11px;
             }
 
         .avatar {
@@ -233,20 +271,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold
+            font-weight: bold;
         }
 
         .content {
-            padding: 32px
+            padding: 32px;
         }
 
         .page {
-            display: none
+            display: none;
         }
 
             .page.active {
-                display: block
+                display: block;
             }
+
+        /* ================= HOME ================= */
 
         .welcome-card {
             min-height: 290px;
@@ -256,29 +296,29 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 8px 25px #0000000a
+            box-shadow: 0 8px 25px #0000000a;
         }
 
         .welcome-text {
-            max-width: 570px
+            max-width: 570px;
         }
 
             .welcome-text .small {
                 color: #2563eb;
                 font-size: 14px;
                 font-weight: 600;
-                margin-bottom: 12px
+                margin-bottom: 12px;
             }
 
             .welcome-text h1 {
                 font-size: 31px;
-                margin-bottom: 13px
+                margin-bottom: 13px;
             }
 
             .welcome-text p {
                 color: #6b7280;
                 line-height: 1.6;
-                margin-bottom: 25px
+                margin-bottom: 25px;
             }
 
         .home-status {
@@ -286,19 +326,19 @@
             padding: 25px;
             background: #f8fafc;
             border: 1px solid #e6ebf2;
-            border-radius: 15px
+            border-radius: 15px;
         }
 
             .home-status h3 {
                 font-size: 14px;
-                margin-bottom: 18px
+                margin-bottom: 18px;
             }
 
         .extension-number {
             font-size: 35px;
             font-weight: 700;
             color: #2563eb;
-            margin-bottom: 8px
+            margin-bottom: 8px;
         }
 
         .online {
@@ -306,60 +346,64 @@
             font-size: 13px;
             display: flex;
             align-items: center;
-            gap: 7px
+            gap: 7px;
         }
+
+        /* ================= CARD ================= */
 
         .section-card {
             background: #fff;
             border-radius: 15px;
             padding: 24px;
             box-shadow: 0 5px 20px #00000009;
-            margin-bottom: 20px
+            margin-bottom: 20px;
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px
+            margin-bottom: 20px;
         }
 
             .section-header h2 {
                 font-size: 18px;
-                margin: 0
+                margin: 0;
             }
 
             .section-header p {
                 color: #8a94a6;
                 font-size: 13px;
-                margin: 5px 0 0
+                margin: 5px 0 0;
             }
 
         .search-box {
             padding: 10px 12px;
             border: 1px solid #d7dce5;
             border-radius: 8px;
-            outline: 0
+            outline: 0;
         }
+
+        /* ================= EXTENSIONS ================= */
 
         .extension-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill,minmax(190px,1fr));
-            gap: 16px
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 16px;
         }
 
         .extension-card {
             border: 1px solid #e5e9f0;
             border-radius: 13px;
             padding: 20px;
-            background: #fff
+            background: #fff;
         }
 
         .extension-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px
+            margin-bottom: 18px;
         }
 
         .extension-icon {
@@ -371,18 +415,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 20px
+            font-size: 20px;
         }
 
         .extension-card h3 {
             font-size: 18px;
-            margin: 0 0 5px
+            margin: 0 0 5px;
         }
 
         .extension-card p {
             color: #737d8d;
             font-size: 12px;
-            margin-bottom: 16px
+            margin-bottom: 16px;
         }
 
         .badge-status {
@@ -390,52 +434,57 @@
             padding: 5px 9px;
             border-radius: 20px;
             font-size: 11px;
-            font-weight: 600
+            font-weight: 600;
         }
 
         .green {
             color: #15803d;
-            background: #dcfce7
+            background: #dcfce7;
         }
 
         .red {
             color: #b91c1c;
-            background: #fee2e2
+            background: #fee2e2;
         }
 
         .yellow {
             color: #a16207;
-            background: #fef3c7
+            background: #fef3c7;
         }
+
+        /* ================= TABLE ================= */
 
         .table-wrapper {
-            overflow-x: auto
+            overflow-x: auto;
         }
 
-        th, td {
+        th,
+        td {
             padding: 14px 12px;
             border-bottom: 1px solid #edf0f4;
             text-align: left;
-            font-size: 13px
+            font-size: 13px;
         }
 
         th {
             color: #6b7280;
             font-size: 12px;
-            background: #fafbfc
+            background: #fafbfc;
         }
+
+        /* ================= SECURITY ================= */
 
         .security-grid {
             display: grid;
-            grid-template-columns: repeat(2,1fr);
-            gap: 17px
+            grid-template-columns: repeat(2, 1fr);
+            gap: 17px;
         }
 
         .security-card {
             border: 1px solid #e6eaf0;
             border-radius: 13px;
             padding: 22px;
-            background: #fff
+            background: #fff;
         }
 
         .security-icon {
@@ -448,30 +497,32 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            margin-bottom: 15px
+            margin-bottom: 15px;
         }
 
         .security-card h3 {
-            font-size: 15px
+            font-size: 15px;
         }
 
         .security-card p {
             color: #737d8d;
             font-size: 13px;
-            line-height: 1.5
+            line-height: 1.5;
         }
+
+        /* ================= CALL ================= */
 
         .calling-container {
             max-width: 650px;
             margin: 20px auto;
-            text-align: center
+            text-align: center;
         }
 
         .calling-box {
             background: #fff;
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 8px 25px #0000000d
+            box-shadow: 0 8px 25px #0000000d;
         }
 
         .calling-avatar {
@@ -484,25 +535,25 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 34px
+            font-size: 34px;
         }
 
         .calling-number {
             color: #6b7280;
-            margin-bottom: 25px
+            margin-bottom: 25px;
         }
 
         .timer {
             font-size: 30px;
             font-weight: 700;
-            margin-bottom: 28px
+            margin-bottom: 20px;
         }
 
         .call-actions {
             display: flex;
             justify-content: center;
             gap: 12px;
-            flex-wrap: wrap
+            flex-wrap: wrap;
         }
 
         .action-btn {
@@ -510,23 +561,78 @@
             padding: 11px 17px;
             border-radius: 9px;
             cursor: pointer;
-            font-weight: 600
+            font-weight: 600;
         }
 
         .action-record {
             background: #eff6ff;
-            color: #2563eb
+            color: #2563eb;
         }
 
         .action-transfer {
             background: #f3f4f6;
-            color: #374151
+            color: #374151;
         }
 
         .action-end {
             background: #fee2e2;
-            color: #dc2626
+            color: #dc2626;
         }
+
+        /* ================= SIGNATURE ================= */
+
+        .signature-box {
+            text-align: left;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 25px;
+        }
+
+        .signature-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .signature-row {
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            background: #fff;
+            border: 1px solid #edf0f4;
+            font-size: 13px;
+        }
+
+            .signature-row:last-child {
+                margin-bottom: 0;
+            }
+
+        .signature-waiting {
+            color: #a16207;
+        }
+
+        .signature-success {
+            color: #15803d;
+            font-weight: 600;
+        }
+
+        .signature-error {
+            color: #b91c1c;
+            font-weight: 600;
+        }
+
+        .signature-info {
+            color: #2563eb;
+        }
+
+        #confirmBButton {
+            display: none;
+            margin-bottom: 15px;
+        }
+
+        /* ================= MODAL ================= */
 
         .modal-custom {
             display: none;
@@ -535,122 +641,5264 @@
             background: #0f172a73;
             z-index: 100;
             align-items: center;
-            justify-content: center
+            justify-content: center;
         }
 
             .modal-custom.show {
-                display: flex
+                display: flex;
             }
 
         .modal-box {
-            width: 390px;
-            max-width: 90%;
+            width: 440px;
+            max-width: 92%;
             background: #fff;
-            border-radius: 15px;
-            padding: 25px
+            border-radius: 17px;
+            padding: 25px;
+            box-shadow: 0 20px 50px #00000026;
         }
 
-        @media(max-width:850px) {
+            .modal-box h3 {
+                font-size: 18px;
+                margin-bottom: 7px;
+            }
+
+            .modal-box > p {
+                color: #6b7280;
+                font-size: 13px;
+                margin-bottom: 20px;
+            }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-info-box {
+            padding: 13px;
+            border-radius: 9px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            margin-bottom: 17px;
+            font-size: 13px;
+        }
+
+            .modal-info-box strong {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+        /* ================= DIGITAL SIGNATURE SETUP ================= */
+
+        .signature-setup-card {
+            border: 1px solid #bfdbfe;
+            background: #f8fbff;
+        }
+
+        .signature-device-status {
+            padding: 12px 14px;
+            border-radius: 9px;
+            margin-bottom: 17px;
+            font-size: 13px;
+        }
+
+            .signature-device-status.not-ready {
+                color: #a16207;
+                background: #fef3c7;
+            }
+
+            .signature-device-status.ready {
+                color: #15803d;
+                background: #dcfce7;
+            }
+
+        .pin-help {
+            font-size: 11px;
+            color: #7b8494;
+            line-height: 1.5;
+            margin-top: 7px;
+        }
+
+        .security-warning {
+            padding: 12px;
+            border-radius: 9px;
+            background: #fff7ed;
+            color: #9a3412;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-top: 15px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
             .sidebar {
-                width: 205px
+                width: 210px;
             }
 
             .main {
-                margin-left: 205px
+                margin-left: 210px;
             }
 
             .welcome-card {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 30px
+                gap: 25px;
             }
 
             .home-status {
-                width: 100%
+                width: 100%;
             }
 
             .security-grid {
-                grid-template-columns: 1fr
+                grid-template-columns: 1fr;
             }
         }
 
-        @media(max-width:650px) {
+        @media (max-width: 700px) {
+
             .sidebar {
-                position: relative;
+                position: static;
                 width: 100%;
                 height: auto;
-                border-right: 0;
-                border-bottom: 1px solid #e5e7eb
             }
 
             .logout-area {
                 position: static;
-                margin-top: 10px
+                margin-top: 20px;
             }
 
             .main {
-                margin-left: 0
+                margin-left: 0;
             }
 
             .topbar {
-                padding: 0 18px
+                padding: 0 18px;
             }
 
             .content {
-                padding: 18px
-            }
-
-            .welcome-card {
-                padding: 25px
+                padding: 18px;
             }
         }
     </style>
 </head>
+
 <body>
-    <div id="loginPage"><div class="login-box"><div class="login-logo">☎</div><h1>Đăng nhập</h1><p class="login-subtitle">Hệ thống tổng đài nội bộ</p><form id="loginForm"><div class="mb-3"><label class="form-label fw-semibold">Tên đăng nhập</label><input id="username" class="form-control" type="text" placeholder="Nhập tên đăng nhập" autocomplete="username"></div><div class="mb-3"><label class="form-label fw-semibold">Mật khẩu</label><input id="password" class="form-control" type="password" placeholder="Nhập mật khẩu" autocomplete="current-password"></div><button class="btn btn-primary w-100 py-2 fw-semibold" id="loginBtn" type="submit">Đăng nhập</button><div id="loginMessage" class="login-message"></div></form></div></div>
-    <div id="app">
-        <aside class="sidebar"><div class="brand"><div class="brand-icon">☎</div><div class="brand-text"><h2>Tổng đài nội bộ</h2><p>HỆ THỐNG AN TOÀN</p></div></div><div class="menu-title">Chức năng</div><button class="menu-item active" data-page="home">🏠 <span>Trang chủ</span></button><button class="menu-item" data-page="calling">📞 <span>Gọi nội bộ</span></button><button class="menu-item" data-page="history">📋 <span>Cuộc gọi</span></button><button class="menu-item" data-page="security">🔐 <span>Bảo mật</span></button><button class="menu-item" data-page="logs">📝 <span>Nhật ký</span></button><div class="logout-area"><button class="logout-btn" id="logoutBtn">↪ Đăng xuất</button></div></aside>
-        <main class="main">
-            <header class="topbar"><div class="page-title" id="pageTitle">Trang chủ</div><div class="user-area"><div class="status-dot"></div><div class="user-info"><strong id="displayName">Người dùng</strong><span id="displayRole">Nhân viên</span></div><div class="avatar" id="avatar">NV</div></div></header><div class="content">
-                <section class="page active" id="home"><div class="welcome-card"><div class="welcome-text"><div class="small">HỆ THỐNG ĐANG HOẠT ĐỘNG</div><h1>Xin chào!</h1><p>Chào mừng bạn đến với hệ thống tổng đài nội bộ. Bạn có thể thực hiện và quản lý cuộc gọi từ các chức năng bên trái.</p><button class="btn btn-primary px-4 py-2 fw-semibold" onclick="showPage('calling')">📞 Gọi nội bộ</button></div><div class="home-status"><h3>Số máy của bạn</h3><div class="extension-number" id="myExtension">---</div><div class="online"><span class="status-dot"></span>Đang trực tuyến</div></div></div></section>
-                <section class="page" id="calling">
-                    <div class="section-card">
-                        <div class="section-header"><div><h2>Gọi nội bộ</h2><p>Chọn số máy cần gọi trong hệ thống.</p></div><input class="search-box" id="extensionSearch" type="text" placeholder="Tìm số máy..."></div><div class="extension-grid" id="extensionGrid">
-                            <div class="extension-card" data-number="101"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status green">Trực tuyến</span></div><h3>101</h3><p>Nguyễn Văn A</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('101','Nguyễn Văn A')">📞 Gọi</button></div>
-                            <div class="extension-card" data-number="102"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status green">Trực tuyến</span></div><h3>102</h3><p>Trần Văn B</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('102','Trần Văn B')">📞 Gọi</button></div>
-                            <div class="extension-card" data-number="103"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status green">Trực tuyến</span></div><h3>103</h3><p>Lê Văn C</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('103','Lê Văn C')">📞 Gọi</button></div>
-                            <div class="extension-card" data-number="104"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status yellow">Bận</span></div><h3>104</h3><p>Phạm Văn D</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('104','Phạm Văn D')">📞 Gọi</button></div>
-                            <div class="extension-card" data-number="105"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status green">Trực tuyến</span></div><h3>105</h3><p>Hoàng Văn E</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('105','Hoàng Văn E')">📞 Gọi</button></div>
-                            <div class="extension-card" data-number="106"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status red">Ngoại tuyến</span></div><h3>106</h3><p>Đỗ Văn F</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('106','Đỗ Văn F')">📞 Gọi</button></div>
-                            <div class="extension-card" data-number="107"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status green">Trực tuyến</span></div><h3>107</h3><p>Vũ Văn G</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('107','Vũ Văn G')">📞 Gọi</button></div>
-                            <div class="extension-card" data-number="108"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status green">Trực tuyến</span></div><h3>108</h3><p>Ngô Văn H</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('108','Ngô Văn H')">📞 Gọi</button></div>
-                            <div class="extension-card" data-number="109"><div class="extension-top"><div class="extension-icon">☎</div><span class="badge-status green">Trực tuyến</span></div><h3>109</h3><p>Bùi Văn I</p><button class="btn btn-primary btn-sm w-100" onclick="startCall('109','Bùi Văn I')">📞 Gọi</button></div>
-                        </div>
-                    </div>
-                </section>
-                <section class="page" id="history"><div class="section-card"><div class="section-header"><div><h2>Lịch sử cuộc gọi</h2><p>Danh sách các cuộc gọi nội bộ.</p></div></div><div class="table-wrapper"><table class="table"><thead><tr><th>Người gọi</th><th>Người nhận</th><th>Bắt đầu</th><th>Thời lượng</th><th>Trạng thái</th></tr></thead><tbody id="historyBody"><tr><td colspan="5" class="text-center text-secondary">Chưa có dữ liệu cuộc gọi.</td></tr></tbody></table></div></div></section>
-                <section class="page" id="security"><div class="section-card"><div class="section-header"><div><h2>Bảo mật hệ thống</h2><p>Các cơ chế bảo mật được tích hợp.</p></div></div><div class="security-grid"><div class="security-card"><div class="security-icon">🔑</div><h3>BCrypt</h3><p>Bảo vệ mật khẩu tài khoản bằng hàm băm BCrypt.</p></div><div class="security-card"><div class="security-icon">🪪</div><h3>JWT</h3><p>Xác thực người dùng và bảo vệ API yêu cầu đăng nhập.</p></div><div class="security-card"><div class="security-icon">🔒</div><h3>AES</h3><p>Mã hóa dữ liệu cần bảo mật.</p></div><div class="security-card"><div class="security-icon">🔐</div><h3>RSA</h3><p>Bảo vệ khóa AES và hỗ trợ chữ ký số.</p></div><div class="security-card"><div class="security-icon">#</div><h3>SHA-256</h3><p>Kiểm tra tính toàn vẹn dữ liệu.</p></div><div class="security-card"><div class="security-icon">✍</div><h3>Chữ ký số</h3><p>Xác thực nguồn gốc và phát hiện dữ liệu bị thay đổi.</p></div></div></div></section>
-                <section class="page" id="logs"><div class="section-card"><div class="section-header"><div><h2>Nhật ký hoạt động</h2><p>Theo dõi các hoạt động trong hệ thống.</p></div></div><div class="table-wrapper"><table class="table"><thead><tr><th>Tài khoản</th><th>Hành động</th><th>Thời gian</th><th>Trạng thái</th></tr></thead><tbody id="logsBody"><tr><td colspan="4" class="text-center text-secondary">Chưa có dữ liệu nhật ký.</td></tr></tbody></table></div></div></section>
-                <section class="page" id="activeCall"><div class="calling-container"><div class="calling-box"><div class="calling-avatar">☎</div><h2 id="callingName">Đang gọi...</h2><div class="calling-number" id="callingNumber">Số máy ---</div><div class="timer" id="callTimer">00:00</div><div id="callStatus" class="mb-4 text-primary fw-semibold">Đang gọi...</div><div class="call-actions"><button class="action-btn action-record" id="recordBtn" onclick="toggleRecording()">🔴 Ghi âm</button><button class="action-btn action-transfer" onclick="openTransferModal()">↪ Chuyển tiếp</button><button class="action-btn action-end" onclick="endCall()">☎ Kết thúc</button></div></div></div></section>
+
+    <!-- ========================================================= -->
+    <!-- LOGIN -->
+    <!-- ========================================================= -->
+
+    <div id="loginPage">
+
+        <div class="login-box">
+
+            <div class="login-logo">
+                ☎
             </div>
-        </main>
+
+            <h1>Tổng đài nội bộ</h1>
+
+            <div class="login-subtitle">
+                Hệ thống liên lạc nội bộ an toàn
+            </div>
+
+
+            <form id="loginForm">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Tên đăng nhập
+                    </label>
+
+                    <input type="text"
+                           id="username"
+                           class="form-control"
+                           autocomplete="username"
+                           placeholder="Nhập tên đăng nhập">
+
+                </div>
+
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Mật khẩu
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input type="password"
+                               id="password"
+                               class="form-control"
+                               autocomplete="new-password"
+                               placeholder="Nhập mật khẩu">
+
+                        <button type="button"
+                                id="togglePassword"
+                                class="toggle-password">
+                            Hiện
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit"
+                        id="loginBtn"
+                        class="btn btn-primary w-100">
+                    Đăng nhập
+                </button>
+
+
+                <div id="loginMessage"
+                     class="login-message">
+                </div>
+
+            </form>
+
+        </div>
+
     </div>
-    <div class="modal-custom" id="transferModal"><div class="modal-box"><h3>Chuyển tiếp cuộc gọi</h3><input id="transferNumber" class="form-control mb-3" type="text" placeholder="Nhập số máy cần chuyển"><div class="d-flex justify-content-end gap-2"><button class="btn btn-light" onclick="closeTransferModal()">Hủy</button><button class="btn btn-primary" onclick="transferCall()">Chuyển tiếp</button></div></div></div>
+
+
+    <!-- ========================================================= -->
+    <!-- APP -->
+    <!-- ========================================================= -->
+
+    <div id="app">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+
+                <div class="brand-icon">
+                    ☎
+                </div>
+
+                <div class="brand-text">
+
+                    <h2>
+                        Tổng đài nội bộ
+                    </h2>
+
+                    <p>
+                        Secure PBX System
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="menu-title">
+                Chức năng
+            </div>
+
+
+            <button class="menu-item active"
+                    data-page="home"
+                    onclick="showPage('home', this)">
+                🏠 Trang chủ
+            </button>
+
+
+            <button class="menu-item"
+                    data-page="extensions"
+                    onclick="showPage('extensions', this)">
+                ☎ Danh bạ nội bộ
+            </button>
+
+
+            <button class="menu-item"
+                    data-page="history"
+                    onclick="showPage('history', this)">
+                🕘 Lịch sử cuộc gọi
+            </button>
+
+
+            <button class="menu-item"
+                    data-page="security"
+                    onclick="showPage('security', this)">
+                🔐 Bảo mật
+            </button>
+
+
+            <div class="logout-area">
+
+                <button id="logoutBtn"
+                        class="logout-btn">
+                    ↪ Đăng xuất
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN ================= -->
+
+        <main class="main">
+
+            <!-- ================= TOPBAR ================= -->
+
+            <header class="topbar">
+
+                <div id="pageTitle"
+                     class="page-title">
+                    Trang chủ
+                </div>
+
+
+                <div class="user-area">
+
+                    <div class="status-dot">
+                    </div>
+
+
+                    <div class="user-info">
+
+                        <strong id="displayName">
+                            Nhân viên
+                        </strong>
+
+                        <span id="displayRole">
+                            Nhân viên
+                        </span>
+
+                    </div>
+
+
+                    <div id="avatar"
+                         class="avatar">
+                        NV
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <div class="content">
+
+                <!-- ================================================= -->
+                <!-- HOME -->
+                <!-- ================================================= -->
+
+                <section id="home"
+                         class="page active">
+
+                    <div class="welcome-card">
+
+                        <div class="welcome-text">
+
+                            <div class="small">
+                                HỆ THỐNG TỔNG ĐÀI NỘI BỘ
+                            </div>
+
+                            <h1>
+                                Liên lạc nội bộ an toàn và bảo mật
+                            </h1>
+
+                            <p>
+                                Thực hiện cuộc gọi nội bộ, xác thực người gọi
+                                bằng chữ ký số RSA và quản lý lịch sử cuộc gọi
+                                trong cùng một hệ thống.
+                            </p>
+
+
+                            <button class="btn btn-primary"
+                                    onclick="showPage('extensions')">
+                                ☎ Mở danh bạ nội bộ
+                            </button>
+
+                        </div>
+
+
+                        <div class="home-status">
+
+                            <h3>
+                                Số máy của bạn
+                            </h3>
+
+                            <div id="myExtension"
+                                 class="extension-number">
+                                ---
+                            </div>
+
+                            <div class="online">
+
+                                <span class="status-dot">
+                                </span>
+
+                                Đang hoạt động
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================================================= -->
+                <!-- EXTENSIONS -->
+                <!-- ================================================= -->
+
+                <section id="extensions"
+                         class="page">
+
+                    <div class="section-card">
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h2>
+                                    Danh bạ nội bộ
+                                </h2>
+
+                                <p>
+                                    Chọn nhân viên để thực hiện cuộc gọi.
+                                </p>
+
+                            </div>
+
+
+                            <input type="text"
+                                   id="extensionSearch"
+                                   class="search-box"
+                                   placeholder="Tìm số máy..."
+                                   oninput="filterExtensions()">
+
+                        </div>
+
+
+                        <div id="extensionGrid"
+                             class="extension-grid">
+
+
+                            <!-- 101 -->
+
+                            <div class="extension-card"
+                                 data-number="101"
+                                 data-name="Nguyễn Văn A">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    101
+                                </h3>
+
+                                <p>
+                                    Nguyễn Văn A
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('101', 'Nguyễn Văn A')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+
+                            <!-- 102 -->
+
+                            <div class="extension-card"
+                                 data-number="102"
+                                 data-name="Trần Văn B">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    102
+                                </h3>
+
+                                <p>
+                                    Trần Văn B
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('102', 'Trần Văn B')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+
+                            <!-- 103 -->
+
+                            <div class="extension-card"
+                                 data-number="103"
+                                 data-name="Lê Văn C">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    103
+                                </h3>
+
+                                <p>
+                                    Lê Văn C
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('103', 'Lê Văn C')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+
+                            <!-- 104 -->
+
+                            <div class="extension-card"
+                                 data-number="104"
+                                 data-name="Phạm Văn D">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    104
+                                </h3>
+
+                                <p>
+                                    Phạm Văn D
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('104', 'Phạm Văn D')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+
+                            <!-- 105 -->
+
+                            <div class="extension-card"
+                                 data-number="105"
+                                 data-name="Hoàng Văn E">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    105
+                                </h3>
+
+                                <p>
+                                    Hoàng Văn E
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('105', 'Hoàng Văn E')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+
+                            <!-- 106 -->
+
+                            <div class="extension-card"
+                                 data-number="106"
+                                 data-name="Đỗ Văn F">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    106
+                                </h3>
+
+                                <p>
+                                    Đỗ Văn F
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('106', 'Đỗ Văn F')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+
+                            <!-- 107 -->
+
+                            <div class="extension-card"
+                                 data-number="107"
+                                 data-name="Vũ Văn G">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    107
+                                </h3>
+
+                                <p>
+                                    Vũ Văn G
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('107', 'Vũ Văn G')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+
+                            <!-- 108 -->
+
+                            <div class="extension-card"
+                                 data-number="108"
+                                 data-name="Ngô Văn H">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    108
+                                </h3>
+
+                                <p>
+                                    Ngô Văn H
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('108', 'Ngô Văn H')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+
+                            <!-- 109 -->
+
+                            <div class="extension-card"
+                                 data-number="109"
+                                 data-name="Bùi Văn I">
+
+                                <div class="extension-top">
+
+                                    <div class="extension-icon">
+                                        ☎
+                                    </div>
+
+                                    <span class="badge-status green">
+                                        Online
+                                    </span>
+
+                                </div>
+
+                                <h3>
+                                    109
+                                </h3>
+
+                                <p>
+                                    Bùi Văn I
+                                </p>
+
+                                <button class="btn btn-primary btn-sm w-100"
+                                        onclick="startCall('109', 'Bùi Văn I')">
+                                    📞 Gọi
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================================================= -->
+                <!-- HISTORY -->
+                <!-- ================================================= -->
+
+                <section id="history"
+                         class="page">
+
+                    <div class="section-card">
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h2>
+                                    Lịch sử cuộc gọi
+                                </h2>
+
+                                <p>
+                                    Chỉ hiển thị các cuộc gọi liên quan đến tài khoản của bạn.
+                                </p>
+
+                            </div>
+
+
+                            <button class="btn btn-outline-primary btn-sm"
+                                    onclick="loadCallHistory()">
+                                ↻ Làm mới
+                            </button>
+
+                        </div>
+
+
+                        <div class="table-wrapper">
+
+                            <table class="table">
+
+                                <thead>
+
+                                    <tr>
+
+                                        <th>
+                                            Người gọi
+                                        </th>
+
+                                        <th>
+                                            Người nhận
+                                        </th>
+
+                                        <th>
+                                            Thời gian
+                                        </th>
+
+                                        <th>
+                                            Thời lượng
+                                        </th>
+
+                                        <th>
+                                            Trạng thái
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+
+                                <tbody id="historyBody">
+
+                                    <tr>
+
+                                        <td colspan="5"
+                                            class="text-center text-muted">
+                                            Chưa có dữ liệu cuộc gọi.
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================================================= -->
+                <!-- SECURITY -->
+                <!-- ================================================= -->
+
+                <section id="security"
+                         class="page">
+
+                    <div class="section-card">
+
+                        <div class="section-header">
+
+                            <div>
+
+                                <h2>
+                                    Bảo mật hệ thống
+                                </h2>
+
+                                <p>
+                                    Các giải pháp an toàn và bảo mật được sử dụng trong hệ thống.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="security-grid">
+
+                            <div class="security-card">
+
+                                <div class="security-icon">
+                                    🔑
+                                </div>
+
+                                <h3>
+                                    BCrypt
+                                </h3>
+
+                                <p>
+                                    Mật khẩu tài khoản được băm trước khi lưu vào
+                                    cơ sở dữ liệu, không lưu mật khẩu dạng văn bản rõ.
+                                </p>
+
+                            </div>
+
+
+                            <div class="security-card">
+
+                                <div class="security-icon">
+                                    🎫
+                                </div>
+
+                                <h3>
+                                    JWT
+                                </h3>
+
+                                <p>
+                                    Xác thực phiên đăng nhập và phân quyền truy cập
+                                    API giữa Admin và Nhân viên.
+                                </p>
+
+                            </div>
+
+
+                            <div class="security-card">
+
+                                <div class="security-icon">
+                                    🔐
+                                </div>
+
+                                <h3>
+                                    AES-GCM
+                                </h3>
+
+                                <p>
+                                    Được sử dụng để mã hóa dữ liệu cần bảo mật.
+                                    Private Key trên thiết bị cũng được bảo vệ bằng AES-GCM.
+                                </p>
+
+                            </div>
+
+
+                            <div class="security-card">
+
+                                <div class="security-icon">
+                                    🔏
+                                </div>
+
+                                <h3>
+                                    RSA
+                                </h3>
+
+                                <p>
+                                    RSA được sử dụng cho chữ ký số. Private Key dùng để ký
+                                    và Public Key được Server sử dụng để xác minh.
+                                </p>
+
+                            </div>
+
+
+                            <div class="security-card">
+
+                                <div class="security-icon">
+                                    #
+                                </div>
+
+                                <h3>
+                                    SHA-256
+                                </h3>
+
+                                <p>
+                                    SHA-256 được sử dụng trong quá trình tạo và xác minh
+                                    chữ ký RSA, đồng thời hỗ trợ kiểm tra tính toàn vẹn dữ liệu.
+                                </p>
+
+                            </div>
+
+
+                            <div class="security-card">
+
+                                <div class="security-icon">
+                                    ✍
+                                </div>
+
+                                <h3>
+                                    Chữ ký số
+                                </h3>
+
+                                <p>
+                                    Người gọi ký dữ liệu cuộc gọi bằng Private Key.
+                                    Server sử dụng Public Key để kiểm tra người gửi
+                                    và phát hiện dữ liệu bị thay đổi.
+                                </p>
+
+                            </div>
+
+
+                            <!-- ===================================== -->
+                            <!-- THIẾT LẬP CHỮ KÝ SỐ -->
+                            <!-- ===================================== -->
+
+                            <div class="security-card signature-setup-card"
+                                 style="grid-column: 1 / -1;">
+
+                                <div class="security-icon">
+                                    🛡
+                                </div>
+
+                                <h3>
+                                    Thiết lập chữ ký số trên thiết bị này
+                                </h3>
+
+                                <p>
+                                    Tạo cặp khóa RSA cho tài khoản đang đăng nhập.
+                                    Public Key được gửi lên Server, còn Private Key
+                                    được mã hóa bằng PIN và lưu trên thiết bị này.
+                                </p>
+
+
+                                <div id="signatureDeviceStatus"
+                                     class="signature-device-status not-ready">
+
+                                    ⚠ Chưa thiết lập chữ ký số trên thiết bị này.
+
+                                </div>
+
+
+                                <div class="row">
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+                                            Mã PIN ký số
+                                        </label>
+
+                                        <input type="password"
+                                               id="signaturePin"
+                                               class="form-control"
+                                               autocomplete="new-password"
+                                               placeholder="Nhập PIN tối thiểu 6 ký tự">
+
+                                    </div>
+
+
+                                    <div class="col-md-6 mb-3">
+
+                                        <label class="form-label">
+                                            Nhập lại mã PIN
+                                        </label>
+
+                                        <input type="password"
+                                               id="signaturePinConfirm"
+                                               class="form-control"
+                                               autocomplete="new-password"
+                                               placeholder="Nhập lại mã PIN">
+
+                                    </div>
+
+                                </div>
+
+
+                                <button type="button"
+                                        id="setupSignatureButton"
+                                        class="btn btn-primary"
+                                        onclick="setupDigitalSignature()">
+
+                                    🔐 Thiết lập chữ ký số
+
+                                </button>
+
+
+                                <div class="pin-help">
+
+                                    PIN chỉ được sử dụng trên trình duyệt để tạo khóa
+                                    mã hóa bảo vệ Private Key. PIN không được gửi lên Server.
+
+                                </div>
+
+
+                                <div class="security-warning">
+
+                                    ⚠ Không xóa dữ liệu trình duyệt sau khi đã thiết lập
+                                    nếu bạn vẫn muốn sử dụng Private Key hiện tại.
+                                    Nếu tạo lại cặp khóa, Public Key trên Server cũng
+                                    sẽ được cập nhật.
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ================================================= -->
+                <!-- ACTIVE CALL -->
+                <!-- ================================================= -->
+
+                <section id="activeCall"
+                         class="page">
+
+                    <div class="calling-container">
+
+                        <div class="calling-box">
+
+                            <div class="calling-avatar">
+                                ☎
+                            </div>
+
+
+                            <h2 id="callName">
+                                ---
+                            </h2>
+
+
+                            <div id="callNumber"
+                                 class="calling-number">
+                                ---
+                            </div>
+
+
+                            <div id="callTimer"
+                                 class="timer">
+                                00:00
+                            </div>
+
+
+                            <div id="callStatus"
+                                 class="text-muted mb-4">
+                                Đang chuẩn bị cuộc gọi...
+                            </div>
+
+
+                            <!-- ===================================== -->
+                            <!-- TRẠNG THÁI CHỮ KÝ -->
+                            <!-- ===================================== -->
+
+                            <div class="signature-box">
+
+                                <div class="signature-title">
+                                    🔐 Xác thực chữ ký số
+                                </div>
+
+
+                                <div id="signAStatus"
+                                     class="signature-row signature-waiting">
+
+                                    ⏳ Người gọi A: Chưa ký
+
+                                </div>
+
+
+                                <div id="verifyAStatus"
+                                     class="signature-row signature-waiting">
+
+                                    ⏳ Server: Chưa xác thực chữ ký A
+
+                                </div>
+
+
+                                <div id="signBStatus"
+                                     class="signature-row signature-waiting">
+
+                                    ⏳ Người nhận B: Chờ ký
+
+                                </div>
+
+
+                                <div id="verifyBStatus"
+                                     class="signature-row signature-waiting">
+
+                                    ⏳ Server: Chờ xác thực chữ ký B
+
+                                </div>
+
+                            </div>
+
+
+                            <button id="confirmBButton"
+                                    class="btn btn-success w-100"
+                                    onclick="confirmBSignature()">
+
+                                ✍ Ký xác nhận nhận cuộc gọi
+
+                            </button>
+
+
+                            <div class="call-actions">
+
+                                <button id="recordBtn"
+                                        class="action-btn action-record"
+                                        onclick="toggleRecording()">
+
+                                    🔴 Ghi âm
+
+                                </button>
+
+
+                                <button class="action-btn action-transfer"
+                                        onclick="openTransferModal()">
+
+                                    ↪ Chuyển tiếp
+
+                                </button>
+
+
+                                <button class="action-btn action-end"
+                                        onclick="endCall()">
+
+                                    ☎ Kết thúc
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- MODAL CHUYỂN TIẾP -->
+    <!-- ========================================================= -->
+
+    <div id="transferModal"
+         class="modal-custom">
+
+        <div class="modal-box">
+
+            <h3>
+                Chuyển tiếp cuộc gọi
+            </h3>
+
+            <p>
+                Nhập số máy nội bộ muốn chuyển cuộc gọi tới.
+            </p>
+
+
+            <label class="form-label">
+                Số máy
+            </label>
+
+            <input type="text"
+                   id="transferNumber"
+                   class="form-control"
+                   placeholder="Ví dụ: 103">
+
+
+            <div class="modal-actions">
+
+                <button class="btn btn-light"
+                        onclick="closeTransferModal()">
+
+                    Hủy
+
+                </button>
+
+
+                <button class="btn btn-primary"
+                        onclick="transferCall()">
+
+                    Chuyển cuộc gọi
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- MODAL KÝ SỐ CUỘC GỌI A -->
+    <!-- ========================================================= -->
+
+    <div id="signCallModal"
+         class="modal-custom">
+
+        <div class="modal-box">
+
+            <h3>
+                🔐 KÝ SỐ CUỘC GỌI
+            </h3>
+
+            <p>
+                Xác nhận chữ ký số trước khi gửi yêu cầu cuộc gọi.
+            </p>
+
+
+            <div class="modal-info-box">
+
+                <strong>
+                    Người nhận
+                </strong>
+
+                <span id="signCallRecipient">
+                    ---
+                </span>
+
+            </div>
+
+
+            <label class="form-label">
+                Mã PIN ký số
+            </label>
+
+            <input type="password"
+                   id="callSignaturePin"
+                   class="form-control"
+                   autocomplete="new-password"
+                   placeholder="Nhập PIN đã thiết lập">
+
+
+            <div id="callSignatureMessage"
+                 class="mt-2 text-danger"
+                 style="font-size: 12px; min-height: 18px;">
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button type="button"
+                        class="btn btn-light"
+                        onclick="closeSignCallModal()">
+
+                    Hủy
+
+                </button>
+
+
+                <button type="button"
+                        id="signAndCallButton"
+                        class="btn btn-primary"
+                        onclick="signAndStartCall()">
+
+                    ✍ Ký & gọi
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ========================================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================================= -->
+
     <script>
-        let accessToken = localStorage.getItem('accessToken') || ''; let currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null'); let currentCallNumber = '', currentCallName = '', callSeconds = 0, callTimerInterval = null, isRecording = false;
-        const $ = id => document.getElementById(id);
-        async function apiFetch(url, options = {}) { options.headers = options.headers || {}; if (accessToken) options.headers.Authorization = 'Bearer ' + accessToken; if (options.body && typeof options.body === 'object') { options.headers['Content-Type'] = 'application/json'; options.body = JSON.stringify(options.body) } const r = await fetch(url, options); if (r.status === 401) { logout(false); throw new Error('Phiên đăng nhập đã hết hạn hoặc token không hợp lệ.') } const text = await r.text(); let data = null; try { data = text ? JSON.parse(text) : null } catch { data = text } if (!r.ok) throw new Error(data?.ThongBao || data?.thongBao || data?.message || data?.Message || 'Có lỗi khi gọi API.'); return data }
-        $('loginForm').addEventListener('submit', async e => { e.preventDefault(); const username = $('username').value.trim(), password = $('password').value, message = $('loginMessage'), btn = $('loginBtn'); if (!username || !password) { message.textContent = 'Vui lòng nhập đầy đủ thông tin.'; return } btn.disabled = true; btn.textContent = 'Đang đăng nhập...'; message.textContent = ''; try { const r = await fetch('/api/DangNhap', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ TenDangNhap: username, MatKhau: password }) }); const text = await r.text(); let data = null; try { data = text ? JSON.parse(text) : null } catch { } if (!r.ok) throw new Error(data?.ThongBao || data?.thongBao || 'Tên đăng nhập hoặc mật khẩu không đúng!'); const token = data?.AccessToken || data?.accessToken; if (!token) throw new Error('Server không trả về AccessToken. Kiểm tra Console để xem dữ liệu server trả về.'); accessToken = token; currentUser = { MaTaiKhoan: data?.MaTaiKhoan ?? data?.maTaiKhoan, TenDangNhap: data?.TenDangNhap ?? data?.tenDangNhap, HoTen: data?.HoTen ?? data?.hoTen, VaiTro: data?.VaiTro ?? data?.vaiTro }; localStorage.setItem('accessToken', accessToken); localStorage.setItem('currentUser', JSON.stringify(currentUser)); hienThiNguoiDung(); $('loginPage').style.display = 'none'; $('app').style.display = 'block'; showPage('home') } catch (err) { message.textContent = err.message } finally { btn.disabled = false; btn.textContent = 'Đăng nhập' } });
-        function hienThiNguoiDung() { if (!currentUser) return; const name = currentUser.HoTen || currentUser.TenDangNhap || 'Người dùng'; $('displayName').textContent = name; $('displayRole').textContent = currentUser.VaiTro || 'Nhân viên'; $('avatar').textContent = name.split(' ').slice(-2).map(x => x[0]).join('').toUpperCase() || 'NV' }
-        function restoreSession() { if (accessToken && currentUser) { hienThiNguoiDung(); $('loginPage').style.display = 'none'; $('app').style.display = 'block'; showPage('home') } else { $('loginPage').style.display = 'flex'; $('app').style.display = 'none'; $('username').focus() } }
-        const menuItems = document.querySelectorAll('.menu-item'); menuItems.forEach(i => i.addEventListener('click', () => showPage(i.dataset.page)));
-        function showPage(page) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); $(page)?.classList.add('active'); menuItems.forEach(i => i.classList.toggle('active', i.dataset.page === page)); const titles = { home: 'Trang chủ', calling: 'Gọi nội bộ', history: 'Cuộc gọi', security: 'Bảo mật', logs: 'Nhật ký', activeCall: 'Cuộc gọi đang thực hiện' }; $('pageTitle').textContent = titles[page] || 'Tổng đài nội bộ' }
-        $('extensionSearch').addEventListener('input', function () { const k = this.value.toLowerCase().trim(); document.querySelectorAll('.extension-card').forEach(c => c.style.display = c.textContent.toLowerCase().includes(k) ? '' : 'none') });
-        function startCall(number, name) { if (!accessToken) { alert('Bạn chưa đăng nhập.'); return } currentCallNumber = number; currentCallName = name; $('callingNumber').textContent = 'Số máy ' + number; $('callingName').textContent = name; $('callStatus').textContent = 'Đang gọi số máy ' + number + '...'; callSeconds = 0; $('callTimer').textContent = '00:00'; isRecording = false; $('recordBtn').textContent = '🔴 Ghi âm'; showPage('activeCall'); clearInterval(callTimerInterval); callTimerInterval = setInterval(() => { callSeconds++; $('callTimer').textContent = Math.floor(callSeconds / 60).toString().padStart(2, '0') + ':' + (callSeconds % 60).toString().padStart(2, '0') }, 1000) }
-        function toggleRecording() { isRecording = !isRecording; $('recordBtn').textContent = isRecording ? '⏹ Dừng ghi âm' : '🔴 Ghi âm'; $('callStatus').textContent = isRecording ? 'Đang ghi âm cuộc gọi...' : 'Đã dừng ghi âm.' }
-        function openTransferModal() { if (!currentCallNumber) { alert('Hiện không có cuộc gọi.'); return } $('transferModal').classList.add('show'); $('transferNumber').focus() } function closeTransferModal() { $('transferModal').classList.remove('show') } function transferCall() { const n = $('transferNumber').value.trim(); if (!n) { alert('Vui lòng nhập số máy cần chuyển.'); return } $('callStatus').textContent = 'Đang chuyển cuộc gọi tới số máy ' + n + '...'; $('transferNumber').value = ''; closeTransferModal() }
-        function endCall() { clearInterval(callTimerInterval); const body = $('historyBody'); if (body.children.length === 1 && body.children[0].children.length === 1) body.innerHTML = ''; const now = new Date(); const tr = document.createElement('tr'); tr.innerHTML = '<td>' + escapeHtml(currentUser?.TenDangNhap || '---') + '</td><td>' + escapeHtml(currentCallNumber) + '</td><td>' + now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }) + ' - ' + now.toLocaleDateString('vi-VN') + '</td><td>' + $('callTimer').textContent + '</td><td><span class="badge-status green">Đã kết thúc</span></td>'; body.prepend(tr); $('callStatus').textContent = 'Cuộc gọi đã kết thúc.'; showPage('history') }
-        function logout(show = true) { clearInterval(callTimerInterval); accessToken = ''; currentUser = null; localStorage.removeItem('accessToken'); localStorage.removeItem('currentUser'); $('app').style.display = 'none'; $('loginPage').style.display = 'flex'; $('password').value = ''; $('loginMessage').textContent = show ? 'Bạn đã đăng xuất.' : ''; $('username').focus() } $('logoutBtn').addEventListener('click', () => logout(true)); function escapeHtml(v) { return String(v ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;') } restoreSession();
+
+                                /* =========================================================
+                                   GLOBAL
+                                   ========================================================= */
+
+                                let accessToken =
+                                    localStorage.getItem("accessToken") || "";
+
+                                let currentUser =
+                                    null;
+
+                                let currentCallNumber =
+                                    "";
+
+                                let currentCallName =
+                                    "";
+
+                                let currentCallId =
+                                    null;
+
+                                let callSeconds =
+                                    0;
+
+                                let callTimerInterval =
+                                    null;
+
+                                let isRecording =
+                                    false;
+
+                                let waitingForB =
+                                    false;
+
+
+                                /*
+                                 * Không lưu Private Key dạng rõ trong biến toàn cục.
+                                 *
+                                 * Private Key mới:
+                                 * - tạo bằng Web Crypto
+                                 * - mã hóa AES-GCM
+                                 * - lưu ciphertext vào localStorage
+                                 *
+                                 * Khi ký:
+                                 * - nhập PIN
+                                 * - giải mã tạm thời
+                                 * - ký
+                                 * - bỏ khóa khỏi phạm vi hàm
+                                 */
+
+
+                                /* =========================================================
+                                   MAP SỐ MÁY → MÃ TÀI KHOẢN
+
+                                   Theo dữ liệu mẫu hiện tại:
+
+                                   101 → MaTaiKhoan 2
+                                   102 → MaTaiKhoan 3
+                                   ...
+                                   109 → MaTaiKhoan 10
+
+                                   Cần MaTaiKhoan thật vì Server dựng dữ liệu ký bằng
+                                   MaNguoiNhan, không phải số máy.
+                                   ========================================================= */
+
+                                const extensionAccountMap = {
+
+                                    "101": 2,
+                                    "102": 3,
+                                    "103": 4,
+                                    "104": 5,
+                                    "105": 6,
+                                    "106": 7,
+                                    "107": 8,
+                                    "108": 9,
+                                    "109": 10
+
+                                };
+
+
+                                /* =========================================================
+                                   KHÔI PHỤC CURRENT USER
+                                   ========================================================= */
+
+                                try {
+
+                                    currentUser =
+                                        JSON.parse(
+                                            localStorage.getItem("currentUser") ||
+                                            "null"
+                                        );
+
+                                }
+                                catch {
+
+                                    currentUser =
+                                        null;
+
+                                }
+
+
+                                const $ =
+                                    id =>
+                                        document.getElementById(id);
+
+
+                                /* =========================================================
+                                   HỖ TRỢ BASE64
+                                   ========================================================= */
+
+                                function arrayBufferToBase64(
+                                    buffer
+                                ) {
+
+                                    const bytes =
+                                        new Uint8Array(
+                                            buffer
+                                        );
+
+
+                                    let binary =
+                                        "";
+
+
+                                    for (
+                                        let i = 0;
+                                        i < bytes.byteLength;
+                                        i++
+                                    ) {
+
+                                        binary +=
+                                            String.fromCharCode(
+                                                bytes[i]
+                                            );
+
+                                    }
+
+
+                                    return btoa(
+                                        binary
+                                    );
+
+                                }
+
+
+                                function base64ToUint8Array(
+                                    base64
+                                ) {
+
+                                    const binary =
+                                        atob(
+                                            base64
+                                        );
+
+
+                                    const bytes =
+                                        new Uint8Array(
+                                            binary.length
+                                        );
+
+
+                                    for (
+                                        let i = 0;
+                                        i < binary.length;
+                                        i++
+                                    ) {
+
+                                        bytes[i] =
+                                            binary.charCodeAt(
+                                                i
+                                            );
+
+                                    }
+
+
+                                    return bytes;
+
+                                }
+
+
+                                /* =========================================================
+                                   LẤY MÃ TÀI KHOẢN HIỆN TẠI
+                                   ========================================================= */
+
+                                function getCurrentAccountId() {
+
+                                    const value =
+                                        currentUser?.MaTaiKhoan ??
+                                        currentUser?.maTaiKhoan;
+
+
+                                    const id =
+                                        Number(
+                                            value
+                                        );
+
+
+                                    return Number.isInteger(id)
+                                        ? id
+                                        : 0;
+
+                                }
+
+
+                                /* =========================================================
+                                   TÊN KEY LOCALSTORAGE
+
+                                   Mỗi tài khoản có Private Key riêng.
+                                   ========================================================= */
+
+                                function getEncryptedKeyStorageName() {
+
+                                    const accountId =
+                                        getCurrentAccountId();
+
+
+                                    if (!accountId) {
+
+                                        return "";
+
+                                    }
+
+
+                                    return "TongDai_RSA_PrivateKey_" +
+                                        accountId;
+
+                                }
+
+
+                                /* =========================================================
+                                   KIỂM TRA THIẾT LẬP CHỮ KÝ
+                                   ========================================================= */
+
+                                function hasLocalDigitalSignature() {
+
+                                    const storageName =
+                                        getEncryptedKeyStorageName();
+
+
+                                    if (!storageName) {
+
+                                        return false;
+
+                                    }
+
+
+                                    return !!localStorage.getItem(
+                                        storageName
+                                    );
+
+                                }
+
+
+                                /* =========================================================
+                                   CẬP NHẬT TRẠNG THÁI CHỮ KÝ
+                                   ========================================================= */
+
+                                function updateSignatureDeviceStatus() {
+
+                                    const status =
+                                        $("signatureDeviceStatus");
+
+
+                                    if (!status) {
+
+                                        return;
+
+                                    }
+
+
+                                    if (
+                                        hasLocalDigitalSignature()
+                                    ) {
+
+                                        status.className =
+                                            "signature-device-status ready";
+
+
+                                        status.textContent =
+                                            "✅ Thiết bị này đã có Private Key được mã hóa để ký số.";
+
+                                    }
+                                    else {
+
+                                        status.className =
+                                            "signature-device-status not-ready";
+
+
+                                        status.textContent =
+                                            "⚠ Chưa thiết lập chữ ký số trên thiết bị này.";
+
+                                    }
+
+                                }
+
+
+                                /* =========================================================
+                                   PBKDF2:
+                                   PIN → AES KEY
+                                   ========================================================= */
+
+                                async function deriveAesKeyFromPin(
+                                    pin,
+                                    salt
+                                ) {
+
+                                    const encoder =
+                                        new TextEncoder();
+
+
+                                    const pinKey =
+                                        await crypto.subtle.importKey(
+                                            "raw",
+                                            encoder.encode(pin),
+                                            "PBKDF2",
+                                            false,
+                                            [
+                                                "deriveKey"
+                                            ]
+                                        );
+
+
+                                    return await crypto.subtle.deriveKey(
+                                        {
+                                            name:
+                                                "PBKDF2",
+
+                                            salt:
+                                                salt,
+
+                                            iterations:
+                                                200000,
+
+                                            hash:
+                                                "SHA-256"
+                                        },
+                                        pinKey,
+                                        {
+                                            name:
+                                                "AES-GCM",
+
+                                            length:
+                                                256
+                                        },
+                                        false,
+                                        [
+                                            "encrypt",
+                                            "decrypt"
+                                        ]
+                                    );
+
+                                }
+
+
+                                /* =========================================================
+                                   TẠO CẶP KHÓA RSA
+                                   ========================================================= */
+
+                                async function createRsaKeyPair() {
+
+                                    return await crypto.subtle.generateKey(
+                                        {
+                                            name:
+                                                "RSASSA-PKCS1-v1_5",
+
+                                            modulusLength:
+                                                2048,
+
+                                            publicExponent:
+                                                new Uint8Array(
+                                                    [
+                                                        1,
+                                                        0,
+                                                        1
+                                                    ]
+                                                ),
+
+                                            hash:
+                                                "SHA-256"
+                                        },
+                                        true,
+                                        [
+                                            "sign",
+                                            "verify"
+                                        ]
+                                    );
+
+                                }
+
+
+                                /* =========================================================
+                                   MÃ HÓA PRIVATE KEY BẰNG PIN
+                                   ========================================================= */
+
+                                async function encryptPrivateKey(
+                                    privateKey,
+                                    pin
+                                ) {
+
+                                    const privateKeyPkcs8 =
+                                        await crypto.subtle.exportKey(
+                                            "pkcs8",
+                                            privateKey
+                                        );
+
+
+                                    const salt =
+                                        crypto.getRandomValues(
+                                            new Uint8Array(16)
+                                        );
+
+
+                                    const iv =
+                                        crypto.getRandomValues(
+                                            new Uint8Array(12)
+                                        );
+
+
+                                    const aesKey =
+                                        await deriveAesKeyFromPin(
+                                            pin,
+                                            salt
+                                        );
+
+
+                                    const encryptedPrivateKey =
+                                        await crypto.subtle.encrypt(
+                                            {
+                                                name:
+                                                    "AES-GCM",
+
+                                                iv:
+                                                    iv
+                                            },
+                                            aesKey,
+                                            privateKeyPkcs8
+                                        );
+
+
+                                    return {
+
+                                        version:
+                                            1,
+
+                                        algorithm:
+                                            "RSA-2048-RSASSA-PKCS1-v1_5-SHA256",
+
+                                        protection:
+                                            "PBKDF2-SHA256-AES-256-GCM",
+
+                                        iterations:
+                                            200000,
+
+                                        salt:
+                                            arrayBufferToBase64(
+                                                salt
+                                            ),
+
+                                        iv:
+                                            arrayBufferToBase64(
+                                                iv
+                                            ),
+
+                                        encryptedPrivateKey:
+                                            arrayBufferToBase64(
+                                                encryptedPrivateKey
+                                            )
+
+                                    };
+
+                                }
+
+
+                                /* =========================================================
+                                   GIẢI MÃ PRIVATE KEY
+                                   ========================================================= */
+
+                                async function decryptPrivateKey(
+                                    pin
+                                ) {
+
+                                    const storageName =
+                                        getEncryptedKeyStorageName();
+
+
+                                    if (!storageName) {
+
+                                        throw new Error(
+                                            "Không xác định được tài khoản đang đăng nhập."
+                                        );
+
+                                    }
+
+
+                                    const stored =
+                                        localStorage.getItem(
+                                            storageName
+                                        );
+
+
+                                    if (!stored) {
+
+                                        throw new Error(
+                                            "Thiết bị này chưa thiết lập chữ ký số."
+                                        );
+
+                                    }
+
+
+                                    let data;
+
+
+                                    try {
+
+                                        data =
+                                            JSON.parse(
+                                                stored
+                                            );
+
+                                    }
+                                    catch {
+
+                                        throw new Error(
+                                            "Dữ liệu Private Key trên thiết bị đã bị lỗi."
+                                        );
+
+                                    }
+
+
+                                    try {
+
+                                        const salt =
+                                            base64ToUint8Array(
+                                                data.salt
+                                            );
+
+
+                                        const iv =
+                                            base64ToUint8Array(
+                                                data.iv
+                                            );
+
+
+                                        const encrypted =
+                                            base64ToUint8Array(
+                                                data.encryptedPrivateKey
+                                            );
+
+
+                                        const aesKey =
+                                            await deriveAesKeyFromPin(
+                                                pin,
+                                                salt
+                                            );
+
+
+                                        const privateKeyPkcs8 =
+                                            await crypto.subtle.decrypt(
+                                                {
+                                                    name:
+                                                        "AES-GCM",
+
+                                                    iv:
+                                                        iv
+                                                },
+                                                aesKey,
+                                                encrypted
+                                            );
+
+
+                                        return await crypto.subtle.importKey(
+                                            "pkcs8",
+                                            privateKeyPkcs8,
+                                            {
+                                                name:
+                                                    "RSASSA-PKCS1-v1_5",
+
+                                                hash:
+                                                    "SHA-256"
+                                            },
+                                            false,
+                                            [
+                                                "sign"
+                                            ]
+                                        );
+
+                                    }
+                                    catch {
+
+                                        throw new Error(
+                                            "PIN không đúng hoặc Private Key không thể giải mã."
+                                        );
+
+                                    }
+
+                                }
+
+
+                                /* =========================================================
+                                   KÝ DỮ LIỆU RSA
+                                   ========================================================= */
+
+                                async function signDataWithPrivateKey(
+                                    privateKey,
+                                    data
+                                ) {
+
+                                    const encoder =
+                                        new TextEncoder();
+
+
+                                    const signature =
+                                        await crypto.subtle.sign(
+                                            {
+                                                name:
+                                                    "RSASSA-PKCS1-v1_5"
+                                            },
+                                            privateKey,
+                                            encoder.encode(
+                                                data
+                                            )
+                                        );
+
+
+                                    return arrayBufferToBase64(
+                                        signature
+                                    );
+
+                                }
+/* =========================================================
+           THIẾT LẬP CHỮ KÝ SỐ TRÊN THIẾT BỊ
+
+           1. Người dùng nhập PIN
+           2. Trình duyệt tạo RSA Key Pair
+           3. Public Key → Server
+           4. Private Key → mã hóa AES-GCM bằng PIN
+           5. Chỉ bản Private Key đã mã hóa được lưu localStorage
+           ========================================================= */
+
+async function setupDigitalSignature() {
+
+            const pinInput =
+                $("signaturePin");
+
+            const confirmInput =
+                $("signaturePinConfirm");
+
+            const button =
+                $("setupSignatureButton");
+
+
+            const pin =
+                pinInput.value;
+
+            const confirmPin =
+                confirmInput.value;
+
+
+            // =====================================================
+            // KIỂM TRA ĐĂNG NHẬP
+            // =====================================================
+
+            if (
+                !accessToken ||
+                !currentUser
+            ) {
+
+                alert(
+                    "Bạn chưa đăng nhập."
+                );
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // KIỂM TRA VAI TRÒ
+            // =====================================================
+
+            const vaiTro =
+                currentUser?.VaiTro ??
+                currentUser?.vaiTro;
+
+
+            if (
+                vaiTro &&
+                vaiTro !== "NhanVien"
+            ) {
+
+                alert(
+                    "Chỉ tài khoản Nhân viên mới thiết lập chữ ký số cuộc gọi."
+                );
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // KIỂM TRA PIN
+            // =====================================================
+
+            if (!pin) {
+
+                alert(
+                    "Vui lòng nhập mã PIN ký số."
+                );
+
+                pinInput.focus();
+
+                return;
+
+            }
+
+
+            if (pin.length < 6) {
+
+                alert(
+                    "Mã PIN phải có ít nhất 6 ký tự."
+                );
+
+                pinInput.focus();
+
+                return;
+
+            }
+
+
+            if (
+                pin !==
+                confirmPin
+            ) {
+
+                alert(
+                    "Hai mã PIN không giống nhau."
+                );
+
+                confirmInput.focus();
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // NẾU ĐÃ CÓ KHÓA
+            // =====================================================
+
+            if (
+                hasLocalDigitalSignature()
+            ) {
+
+                const dongY =
+                    confirm(
+                        "Thiết bị này đã có chữ ký số.\n\n" +
+                        "Nếu tạo lại, cặp khóa RSA cũ trên thiết bị sẽ được thay thế " +
+                        "và Public Key trên Server cũng được cập nhật.\n\n" +
+                        "Bạn có chắc muốn tạo lại không?"
+                    );
+
+
+                if (!dongY) {
+
+                    return;
+
+                }
+
+            }
+
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+                "Đang tạo khóa RSA...";
+
+
+            try {
+
+                // =================================================
+                // TẠO RSA KEY PAIR
+                // =================================================
+
+                const keyPair =
+                    await createRsaKeyPair();
+
+
+                // =================================================
+                // EXPORT PUBLIC KEY DẠNG SPKI
+                //
+                // RsaService.cs mới của chúng ta đã hỗ trợ
+                // ImportSubjectPublicKeyInfo.
+                // =================================================
+
+                const publicKeySpki =
+                    await crypto.subtle.exportKey(
+                        "spki",
+                        keyPair.publicKey
+                    );
+
+
+                const publicKeyBase64 =
+                    arrayBufferToBase64(
+                        publicKeySpki
+                    );
+
+
+                // =================================================
+                // MÃ HÓA PRIVATE KEY BẰNG PIN
+                // =================================================
+
+                button.textContent =
+                    "Đang bảo vệ Private Key...";
+
+
+                const encryptedPrivateKey =
+                    await encryptPrivateKey(
+                        keyPair.privateKey,
+                        pin
+                    );
+
+
+                // =================================================
+                // GỬI PUBLIC KEY LÊN SERVER
+                //
+                // KHÔNG GỬI:
+                // - PIN
+                // - Private Key
+                // =================================================
+
+                button.textContent =
+                    "Đang lưu Public Key...";
+
+
+                await apiFetch(
+                    "/api/TaiKhoan/ThietLapChuKySo",
+                    {
+                        method:
+                            "POST",
+
+                        body: {
+
+                            PublicKeyRSA:
+                                publicKeyBase64
+
+                        }
+                    }
+                );
+
+
+                // =================================================
+                // CHỈ SAU KHI SERVER LƯU PUBLIC KEY THÀNH CÔNG
+                // MỚI LƯU PRIVATE KEY ĐÃ MÃ HÓA
+                // =================================================
+
+                const storageName =
+                    getEncryptedKeyStorageName();
+
+
+                if (!storageName) {
+
+                    throw new Error(
+                        "Không xác định được nơi lưu khóa của tài khoản."
+                    );
+
+                }
+
+
+                localStorage.setItem(
+                    storageName,
+                    JSON.stringify(
+                        encryptedPrivateKey
+                    )
+                );
+
+
+                // =================================================
+                // XÓA PIN KHỎI INPUT
+                // =================================================
+
+                pinInput.value =
+                    "";
+
+                confirmInput.value =
+                    "";
+
+
+                updateSignatureDeviceStatus();
+
+
+                alert(
+                    "Thiết lập chữ ký số thành công!\n\n" +
+                    "Public Key đã được lưu trên Server.\n" +
+                    "Private Key đã được mã hóa bằng PIN trên thiết bị này."
+                );
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Lỗi thiết lập chữ ký số:",
+                    error
+                );
+
+
+                alert(
+                    "Không thể thiết lập chữ ký số:\n" +
+                    error.message
+                );
+
+            }
+            finally {
+
+                button.disabled =
+                    false;
+
+
+                button.textContent =
+                    "🔐 Thiết lập chữ ký số";
+
+            }
+
+}
+
+
+/* =========================================================
+           API FETCH
+
+           Tự động:
+           - thêm JWT Bearer Token
+           - chuyển object body → JSON
+           - đọc JSON response
+           - xử lý 401
+           ========================================================= */
+
+async function apiFetch(
+            url,
+            options = {}
+) {
+
+            options.headers =
+                options.headers ||
+                {};
+
+
+            // =====================================================
+            // JWT
+            // =====================================================
+
+            if (accessToken) {
+
+                options.headers.Authorization =
+                    "Bearer " +
+                    accessToken;
+
+            }
+
+
+            // =====================================================
+            // JSON BODY
+            // =====================================================
+
+            if (
+                options.body &&
+                typeof options.body ===
+                "object"
+            ) {
+
+                options.headers[
+                    "Content-Type"
+                ] =
+                    "application/json";
+
+
+                options.body =
+                    JSON.stringify(
+                        options.body
+                    );
+
+            }
+
+
+            const response =
+                await fetch(
+                    url,
+                    options
+                );
+
+
+            // =====================================================
+            // TOKEN HẾT HẠN
+            // =====================================================
+
+            if (
+                response.status ===
+                401
+            ) {
+
+                logout(
+                    false
+                );
+
+
+                throw new Error(
+                    "Phiên đăng nhập đã hết hạn."
+                );
+
+            }
+
+
+            const text =
+                await response.text();
+
+
+            let data =
+                null;
+
+
+            try {
+
+                data =
+                    text
+                        ? JSON.parse(text)
+                        : null;
+
+            }
+            catch {
+
+                data =
+                    text;
+
+            }
+
+
+            // =====================================================
+            // API ERROR
+            // =====================================================
+
+            if (!response.ok) {
+
+                throw new Error(
+
+                    data?.ThongBao ||
+                    data?.thongBao ||
+                    data?.message ||
+                    data?.Message ||
+                    data?.title ||
+
+                    (
+                        response.status === 403
+
+                            ? "Tài khoản không có quyền thực hiện thao tác này (HTTP 403)."
+
+                            : "Có lỗi khi gọi API (HTTP " +
+                            response.status +
+                            ")."
+                    )
+
+                );
+
+            }
+
+
+            return data;
+
+}
+
+
+/* =========================================================
+           LOGIN
+           ========================================================= */
+
+$("loginForm")
+            .addEventListener(
+                "submit",
+                async function (e) {
+
+                    e.preventDefault();
+
+
+                    const username =
+                        $("username")
+                            .value
+                            .trim();
+
+
+                    const password =
+                        $("password")
+                            .value;
+
+
+                    const message =
+                        $("loginMessage");
+
+
+                    const button =
+                        $("loginBtn");
+
+
+                    // =================================================
+                    // VALIDATE
+                    // =================================================
+
+                    if (
+                        !username ||
+                        !password
+                    ) {
+
+                        message.textContent =
+                            "Vui lòng nhập đầy đủ thông tin.";
+
+                        return;
+
+                    }
+
+
+                    button.disabled =
+                        true;
+
+
+                    button.textContent =
+                        "Đang đăng nhập...";
+
+
+                    message.textContent =
+                        "";
+
+
+                    try {
+
+                        // =============================================
+                        // GỌI API LOGIN
+                        // =============================================
+
+                        const response =
+                            await fetch(
+                                "/api/DangNhap",
+                                {
+                                    method:
+                                        "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/json"
+
+                                    },
+
+                                    body:
+                                        JSON.stringify(
+                                            {
+                                                TenDangNhap:
+                                                    username,
+
+                                                MatKhau:
+                                                    password
+                                            }
+                                        )
+                                }
+                            );
+
+
+                        const responseText =
+                            await response.text();
+
+
+                        let data =
+                            null;
+
+
+                        try {
+
+                            data =
+                                responseText
+
+                                    ? JSON.parse(
+                                        responseText
+                                    )
+
+                                    : null;
+
+                        }
+                        catch {
+
+                            data =
+                                null;
+
+                        }
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+
+                                data?.ThongBao ||
+                                data?.thongBao ||
+                                "Tên đăng nhập hoặc mật khẩu không đúng!"
+
+                            );
+
+                        }
+
+
+                        // =============================================
+                        // TOKEN
+                        // =============================================
+
+                        const token =
+                            data?.AccessToken ||
+                            data?.accessToken;
+
+
+                        if (!token) {
+
+                            throw new Error(
+                                "Server không trả về AccessToken."
+                            );
+
+                        }
+
+
+                        accessToken =
+                            token;
+
+
+                        // =============================================
+                        // CURRENT USER
+                        // =============================================
+
+                        currentUser = {
+
+                            MaTaiKhoan:
+                                data?.MaTaiKhoan ??
+                                data?.maTaiKhoan,
+
+                            TenDangNhap:
+                                data?.TenDangNhap ??
+                                data?.tenDangNhap,
+
+                            HoTen:
+                                data?.HoTen ??
+                                data?.hoTen,
+
+                            VaiTro:
+                                data?.VaiTro ??
+                                data?.vaiTro,
+
+                            SoMay:
+                                data?.SoMay ??
+                                data?.soMay
+
+                        };
+
+
+                        // =============================================
+                        // LƯU SESSION
+                        // =============================================
+
+                        localStorage.setItem(
+                            "accessToken",
+                            accessToken
+                        );
+
+
+                        localStorage.setItem(
+                            "currentUser",
+                            JSON.stringify(
+                                currentUser
+                            )
+                        );
+
+
+                        // =============================================
+                        // XÓA PASSWORD
+                        // =============================================
+
+                        $("password").value =
+                            "";
+
+
+                        $("password").type =
+                            "password";
+
+
+                        $("togglePassword")
+                            .textContent =
+                            "Hiện";
+
+
+                        // =============================================
+                        // HIỂN THỊ APP
+                        // =============================================
+
+                        hienThiNguoiDung();
+
+
+                        updateSignatureDeviceStatus();
+
+
+                        $("loginPage")
+                            .style
+                            .display =
+                            "none";
+
+
+                        $("app")
+                            .style
+                            .display =
+                            "block";
+
+
+                        showPage(
+                            "home"
+                        );
+
+                    }
+                    catch (error) {
+
+                        message.textContent =
+                            error.message;
+
+                    }
+                    finally {
+
+                        button.disabled =
+                            false;
+
+
+                        button.textContent =
+                            "Đăng nhập";
+
+                    }
+
+                }
+            );
+
+
+/* =========================================================
+           CHỐNG TRÌNH DUYỆT TỰ ĐIỀN PASSWORD
+           ========================================================= */
+
+$("password").value =
+            "";
+
+
+$("password")
+            .setAttribute(
+                "autocomplete",
+                "new-password"
+            );
+
+
+/* =========================================================
+           HIỆN / ẨN PASSWORD
+           ========================================================= */
+
+$("togglePassword")
+            .addEventListener(
+                "click",
+                function () {
+
+                    const passwordInput =
+                        $("password");
+
+
+                    if (
+                        passwordInput.type ===
+                        "password"
+                    ) {
+
+                        passwordInput.type =
+                            "text";
+
+
+                        this.textContent =
+                            "Ẩn";
+
+                    }
+                    else {
+
+                        passwordInput.type =
+                            "password";
+
+
+                        this.textContent =
+                            "Hiện";
+
+                    }
+
+                }
+            );
+
+
+/* =========================================================
+           HIỂN THỊ NGƯỜI DÙNG
+           ========================================================= */
+
+function hienThiNguoiDung() {
+
+            if (!currentUser) {
+
+                return;
+
+            }
+
+
+            const name =
+                currentUser.HoTen ||
+                currentUser.hoTen ||
+                currentUser.TenDangNhap ||
+                currentUser.tenDangNhap ||
+                "Người dùng";
+
+
+            $("displayName")
+                .textContent =
+                name;
+
+
+            $("displayRole")
+                .textContent =
+                currentUser.VaiTro ||
+                currentUser.vaiTro ||
+                "Nhân viên";
+
+
+            $("avatar")
+                .textContent =
+
+                name
+                    .split(" ")
+                    .filter(
+                        x => x
+                    )
+                    .slice(-2)
+                    .map(
+                        x => x[0]
+                    )
+                    .join("")
+                    .toUpperCase()
+
+                ||
+
+                "NV";
+
+
+            const soMay =
+                currentUser.SoMay ||
+                currentUser.soMay;
+
+
+            $("myExtension")
+                .textContent =
+                soMay ||
+                "---";
+
+}
+
+
+/* =========================================================
+           RESTORE SESSION
+           ========================================================= */
+
+function restoreSession() {
+
+            // =====================================================
+            // KHÔNG KHÔI PHỤC PASSWORD
+            // =====================================================
+
+            $("password").value =
+                "";
+
+
+            $("password").type =
+                "password";
+
+
+            $("togglePassword")
+                .textContent =
+                "Hiện";
+
+
+            // =====================================================
+            // CÓ SESSION
+            // =====================================================
+
+            if (
+                accessToken &&
+                currentUser
+            ) {
+
+                hienThiNguoiDung();
+
+
+                updateSignatureDeviceStatus();
+
+
+                $("loginPage")
+                    .style
+                    .display =
+                    "none";
+
+
+                $("app")
+                    .style
+                    .display =
+                    "block";
+
+
+                showPage(
+                    "home"
+                );
+
+            }
+            else {
+
+                $("app")
+                    .style
+                    .display =
+                    "none";
+
+
+                $("loginPage")
+                    .style
+                    .display =
+                    "flex";
+
+            }
+
+}
+
+
+/* =========================================================
+           CHUYỂN TRANG
+           ========================================================= */
+
+function showPage(
+            pageId,
+            menuButton = null
+) {
+
+            // =====================================================
+            // ẨN TẤT CẢ PAGE
+            // =====================================================
+
+            document
+                .querySelectorAll(
+                    ".page"
+                )
+                .forEach(
+                    page => {
+
+                        page.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            // =====================================================
+            // HIỆN PAGE
+            // =====================================================
+
+            const page =
+                $(pageId);
+
+
+            if (page) {
+
+                page.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            // =====================================================
+            // MENU ACTIVE
+            // =====================================================
+
+            document
+                .querySelectorAll(
+                    ".menu-item"
+                )
+                .forEach(
+                    item => {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+            if (menuButton) {
+
+                menuButton.classList.add(
+                    "active"
+                );
+
+            }
+            else {
+
+                const targetMenu =
+                    document.querySelector(
+                        '.menu-item[data-page="' +
+                        pageId +
+                        '"]'
+                    );
+
+
+                if (targetMenu) {
+
+                    targetMenu.classList.add(
+                        "active"
+                    );
+
+                }
+
+            }
+
+
+            // =====================================================
+            // TITLE
+            // =====================================================
+
+            const titles = {
+
+                home:
+                    "Trang chủ",
+
+                extensions:
+                    "Danh bạ nội bộ",
+
+                history:
+                    "Lịch sử cuộc gọi",
+
+                security:
+                    "Bảo mật",
+
+                activeCall:
+                    "Cuộc gọi"
+
+            };
+
+
+            $("pageTitle")
+                .textContent =
+                titles[pageId] ||
+                "Tổng đài nội bộ";
+
+
+            // =====================================================
+            // PAGE-SPECIFIC
+            // =====================================================
+
+            if (
+                pageId ===
+                "security"
+            ) {
+
+                updateSignatureDeviceStatus();
+
+            }
+
+
+            if (
+                pageId ===
+                "history"
+            ) {
+
+                loadCallHistory();
+
+            }
+
+}
+
+
+/* =========================================================
+           TÌM KIẾM DANH BẠ
+           ========================================================= */
+
+function filterExtensions() {
+
+            const keyword =
+                $("extensionSearch")
+                    .value
+                    .trim()
+                    .toLowerCase();
+
+
+            document
+                .querySelectorAll(
+                    ".extension-card"
+                )
+                .forEach(
+                    card => {
+
+                        const number =
+                            (
+                                card.dataset.number ||
+                                ""
+                            )
+                                .toLowerCase();
+
+
+                        const name =
+                            (
+                                card.dataset.name ||
+                                ""
+                            )
+                                .toLowerCase();
+
+
+                        const visible =
+                            number.includes(
+                                keyword
+                            )
+                            ||
+                            name.includes(
+                                keyword
+                            );
+
+
+                        card.style.display =
+                            visible
+                                ? ""
+                                : "none";
+
+                    }
+                );
+
+}
+
+
+/* =========================================================
+           TẠO NONCE
+
+           32 BYTE RANDOM → BASE64
+
+           Dùng chống Replay Attack.
+           ========================================================= */
+
+function createNonce() {
+
+            const randomBytes =
+                crypto.getRandomValues(
+                    new Uint8Array(32)
+                );
+
+
+            return arrayBufferToBase64(
+                randomBytes
+            );
+
+}
+
+
+/* =========================================================
+           JAVASCRIPT DATE → .NET DATETIME TICKS
+
+           Backend hiện tại của bạn đang nhận:
+               ThoiGianTicks
+
+           .NET ticks:
+               số đơn vị 100ns tính từ 01/01/0001
+
+           JavaScript:
+               milliseconds tính từ 01/01/1970
+
+           Công thức:
+               ticks =
+               unixMilliseconds * 10000
+               + 621355968000000000
+
+           PHẢI DÙNG BIGINT.
+           ========================================================= */
+
+function createDotNetTicks() {
+
+            const unixMilliseconds =
+                BigInt(
+                    Date.now()
+                );
+
+
+            const ticks =
+                (
+                    unixMilliseconds *
+                    10000n
+                )
+                +
+                621355968000000000n;
+
+
+            /*
+             * Không chuyển ticks sang Number vì có thể mất
+             * độ chính xác do giới hạn Number của JavaScript.
+             *
+             * JSON sẽ gửi chuỗi số.
+             * ASP.NET Core có thể bind chuỗi số JSON sang long
+             * trong nhiều cấu hình; tuy nhiên backend của bạn
+             * hiện yêu cầu long nên ở phần gửi bên dưới ta xử lý
+             * theo cách tương thích.
+             */
+
+            return ticks;
+
+}
+
+
+/* =========================================================
+           MỞ MODAL KÝ SỐ CUỘC GỌI
+           ========================================================= */
+
+function openSignCallModal() {
+
+            $("signCallRecipient")
+                .textContent =
+                currentCallName +
+                " - " +
+                currentCallNumber;
+
+
+            $("callSignaturePin")
+                .value =
+                "";
+
+
+            $("callSignatureMessage")
+                .textContent =
+                "";
+
+
+            $("signCallModal")
+                .classList
+                .add(
+                    "show"
+                );
+
+
+            setTimeout(
+                function () {
+
+                    $("callSignaturePin")
+                        .focus();
+
+                },
+                100
+            );
+
+}
+
+
+/* =========================================================
+           ĐÓNG MODAL KÝ SỐ
+           ========================================================= */
+
+function closeSignCallModal() {
+
+            $("signCallModal")
+                .classList
+                .remove(
+                    "show"
+                );
+
+
+            $("callSignaturePin")
+                .value =
+                "";
+
+
+            $("callSignatureMessage")
+                .textContent =
+                "";
+
+}
+
+
+/* =========================================================
+           BẮT ĐẦU YÊU CẦU GỌI
+
+           Hàm này KHÔNG gửi cuộc gọi ngay.
+
+           Nó:
+           1. Kiểm tra chữ ký số đã được thiết lập chưa.
+           2. Lưu người cần gọi.
+           3. Mở modal yêu cầu PIN.
+           ========================================================= */
+
+function startCall(
+            number,
+            name
+) {
+
+            if (
+                !accessToken ||
+                !currentUser
+            ) {
+
+                alert(
+                    "Bạn chưa đăng nhập."
+                );
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // KIỂM TRA NHÂN VIÊN
+            // =====================================================
+
+            const role =
+                currentUser.VaiTro ||
+                currentUser.vaiTro;
+
+
+            if (
+                role &&
+                role !== "NhanVien"
+            ) {
+
+                alert(
+                    "Chỉ tài khoản Nhân viên mới có thể gọi nội bộ."
+                );
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // KIỂM TRA CHỮ KÝ SỐ
+            // =====================================================
+
+            if (
+                !hasLocalDigitalSignature()
+            ) {
+
+                alert(
+                    "Bạn chưa thiết lập chữ ký số trên thiết bị này.\n\n" +
+                    "Vui lòng vào mục Bảo mật → Thiết lập chữ ký số trước khi gọi."
+                );
+
+
+                showPage(
+                    "security"
+                );
+
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // KIỂM TRA SỐ MÁY
+            // =====================================================
+
+            if (
+                !extensionAccountMap[
+                String(number)
+                ]
+            ) {
+
+                alert(
+                    "Không xác định được tài khoản của số máy " +
+                    number +
+                    "."
+                );
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // LƯU NGƯỜI NHẬN
+            // =====================================================
+
+            currentCallNumber =
+                String(
+                    number
+                );
+
+
+            currentCallName =
+                name;
+
+
+            // =====================================================
+            // MỞ MODAL PIN
+            // =====================================================
+
+            openSignCallModal();
+
+}
+
+
+/* =========================================================
+           ENTER TRONG Ô PIN → KÝ & GỌI
+           ========================================================= */
+
+$("callSignaturePin")
+            .addEventListener(
+                "keydown",
+                function (event) {
+
+                    if (
+                        event.key ===
+                        "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+
+                        signAndStartCall();
+
+                    }
+
+                }
+            );
+
+
+/* =========================================================
+           KÝ & GỌI
+
+           Đây là luồng chính của A:
+
+           A nhập PIN
+               ↓
+           giải mã Private Key
+               ↓
+           tạo timestamp
+               ↓
+           tạo nonce
+               ↓
+           dựng dữ liệu:
+           A|B|Ticks|Nonce
+               ↓
+           RSA-SHA256 ký
+               ↓
+           gửi chữ ký lên Server
+
+           PIN và Private Key KHÔNG gửi lên Server.
+           ========================================================= */
+
+async function signAndStartCall() {
+
+            const pin =
+                $("callSignaturePin")
+                    .value;
+
+
+            const message =
+                $("callSignatureMessage");
+
+
+            const button =
+                $("signAndCallButton");
+
+
+            message.textContent =
+                "";
+
+
+            if (!pin) {
+
+                message.textContent =
+                    "Vui lòng nhập mã PIN ký số.";
+
+
+                $("callSignaturePin")
+                    .focus();
+
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // MA NGƯỜI GỌI
+            // =====================================================
+
+            const maNguoiGoi =
+                getCurrentAccountId();
+
+
+            if (!maNguoiGoi) {
+
+                message.textContent =
+                    "Không xác định được mã tài khoản người gọi.";
+
+                return;
+
+            }
+
+
+            // =====================================================
+            // MA NGƯỜI NHẬN
+            //
+            // Đây phải là MaTaiKhoan thật.
+            // =====================================================
+
+            const maNguoiNhan =
+                extensionAccountMap[
+                currentCallNumber
+                ];
+
+
+            if (!maNguoiNhan) {
+
+                message.textContent =
+                    "Không xác định được mã tài khoản người nhận.";
+
+                return;
+
+            }
+
+
+            if (
+                maNguoiGoi ===
+                maNguoiNhan
+            ) {
+
+                message.textContent =
+                    "Không thể gọi cho chính mình.";
+
+                return;
+
+            }
+
+
+            button.disabled =
+                true;
+
+
+            button.textContent =
+                "Đang ký...";
+
+
+            try {
+
+                // =================================================
+                // GIẢI MÃ PRIVATE KEY BẰNG PIN
+                // =================================================
+
+                const privateKey =
+                    await decryptPrivateKey(
+                        pin
+                    );
+
+
+                // =================================================
+                // TẠO NONCE
+                // =================================================
+
+                const nonce =
+                    createNonce();
+
+
+                // =================================================
+                // TẠO .NET TICKS
+                // =================================================
+
+                const ticksBigInt =
+                    createDotNetTicks();
+
+
+                // =================================================
+                // DỮ LIỆU KÝ
+                //
+                // PHẢI KHỚP 100% BACKEND:
+                //
+                // $"{maNguoiGoi}|{nguoiNhan.MaTaiKhoan}|"
+                // + $"{dto.ThoiGianTicks}|{dto.Nonce}"
+                // =================================================
+
+                const duLieuXacThuc =
+                    maNguoiGoi +
+                    "|" +
+                    maNguoiNhan +
+                    "|" +
+                    ticksBigInt.toString() +
+                    "|" +
+                    nonce;
+
+
+                // =================================================
+                // RSA SIGN
+                // =================================================
+
+                const chuKySo =
+                    await signDataWithPrivateKey(
+                        privateKey,
+                        duLieuXacThuc
+                    );
+
+
+                // =================================================
+                // CẬP NHẬT GIAO DIỆN
+                // =================================================
+
+                closeSignCallModal();
+
+
+                showPage(
+                    "activeCall"
+                );
+
+
+                $("callName")
+                    .textContent =
+                    currentCallName;
+
+
+                $("callNumber")
+                    .textContent =
+                    "Số máy " +
+                    currentCallNumber;
+
+
+                $("callTimer")
+                    .textContent =
+                    "00:00";
+
+
+                $("callStatus")
+                    .textContent =
+                    "Đang gửi chữ ký số của người gọi lên Server...";
+
+
+                $("signAStatus")
+                    .textContent =
+                    "✅ Người gọi A: Đã ký số";
+
+
+                $("signAStatus")
+                    .className =
+                    "signature-row signature-success";
+
+
+                $("verifyAStatus")
+                    .textContent =
+                    "⏳ Server: Đang kiểm tra chữ ký A";
+
+
+                $("verifyAStatus")
+                    .className =
+                    "signature-row signature-waiting";
+
+
+                $("signBStatus")
+                    .textContent =
+                    "⏳ Người nhận B: Chờ ký";
+
+
+                $("signBStatus")
+                    .className =
+                    "signature-row signature-waiting";
+
+
+                $("verifyBStatus")
+                    .textContent =
+                    "⏳ Server: Chờ xác thực chữ ký B";
+
+
+                $("verifyBStatus")
+                    .className =
+                    "signature-row signature-waiting";
+
+
+                $("confirmBButton")
+                    .style
+                    .display =
+                    "none";
+
+
+                waitingForB =
+                    true;
+
+
+                // =================================================
+                // GỬI SERVER
+                //
+                // LƯU Ý:
+                // JSON.stringify KHÔNG hỗ trợ BigInt.
+                //
+                // Vì vậy cần chuyển Ticks về kiểu phù hợp trước.
+                //
+                // .NET ticks hiện khoảng 6.39e17, vượt giới hạn
+                // integer an toàn của JS Number.
+                //
+                // Để không làm mất chữ số, gửi trực tiếp chuỗi JSON
+                // và để số ticks là JSON number nguyên văn.
+                // =================================================
+
+                const requestBody =
+                    "{" +
+                    "\"MaNguoiNhan\":" +
+                    Number(
+                        currentCallNumber
+                    ) +
+                    "," +
+                    "\"ThoiGianTicks\":" +
+                    ticksBigInt.toString() +
+                    "," +
+                    "\"Nonce\":" +
+                    JSON.stringify(
+                        nonce
+                    ) +
+                    "," +
+                    "\"ChuKySo\":" +
+                    JSON.stringify(
+                        chuKySo
+                    ) +
+                    "}";
+
+
+                const response =
+                    await fetch(
+                        "/api/CuocGoi/TaoCuocGoi",
+                        {
+                            method:
+                                "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json",
+
+                                "Authorization":
+                                    "Bearer " +
+                                    accessToken
+
+                            },
+
+                            body:
+                                requestBody
+                        }
+                    );
+
+
+                // =================================================
+                // TOKEN HẾT HẠN
+                // =================================================
+
+                if (
+                    response.status ===
+                    401
+                ) {
+
+                    logout(
+                        false
+                    );
+
+
+                    throw new Error(
+                        "Phiên đăng nhập đã hết hạn."
+                    );
+
+                }
+
+
+                const responseText =
+                    await response.text();
+
+
+                let result =
+                    null;
+
+
+                try {
+
+                    result =
+                        responseText
+
+                            ? JSON.parse(
+                                responseText
+                            )
+
+                            : null;
+
+                }
+                catch {
+
+                    result =
+                        null;
+
+                }
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+
+                        result?.ThongBao ||
+                        result?.thongBao ||
+                        result?.message ||
+                        result?.title ||
+                        "Server từ chối yêu cầu cuộc gọi."
+
+                    );
+
+                }
+
+
+                // =================================================
+                // LẤY MÃ CUỘC GỌI
+                // =================================================
+
+                currentCallId =
+                    result?.MaCuocGoi ??
+                    result?.maCuocGoi ??
+                    null;
+
+
+                if (!currentCallId) {
+
+                    throw new Error(
+                        "Server đã nhận yêu cầu nhưng không trả về MaCuocGoi."
+                    );
+
+                }
+
+
+                // =================================================
+                // SERVER ĐÃ XÁC THỰC A
+                // =================================================
+
+                $("verifyAStatus")
+                    .textContent =
+                    "✅ Server: Chữ ký A hợp lệ";
+
+
+                $("verifyAStatus")
+                    .className =
+                    "signature-row signature-success";
+
+
+                $("callStatus")
+                    .textContent =
+                    "✅ Người gọi đã được xác thực. Đang chờ người nhận B ký xác nhận...";
+
+
+                /*
+                 * PHẦN B VẪN ĐANG DÙNG BACKEND CŨ.
+                 *
+                 * Tạm hiển thị nút để chúng ta test tiếp sau khi
+                 * A gọi thành công.
+                 */
+
+                $("confirmBButton")
+                    .style
+                    .display =
+                    "block";
+
+
+                // =================================================
+                // XÓA PIN INPUT
+                // =================================================
+
+                $("callSignaturePin")
+                    .value =
+                    "";
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Lỗi ký và tạo cuộc gọi:",
+                    error
+                );
+
+
+                // =================================================
+                // NẾU ĐÃ CHUYỂN SANG ACTIVE CALL
+                // =================================================
+
+                if (
+                    $("activeCall")
+                        .classList
+                        .contains(
+                            "active"
+                        )
+                ) {
+
+                    $("verifyAStatus")
+                        .textContent =
+                        "❌ Server: Không xác thực được chữ ký A";
+
+
+                    $("verifyAStatus")
+                        .className =
+                        "signature-row signature-error";
+
+
+                    $("callStatus")
+                        .textContent =
+                        "Không thể tạo cuộc gọi.";
+
+                }
+                else {
+
+                    message.textContent =
+                        error.message;
+
+                }
+
+
+                alert(
+                    error.message
+                );
+
+            }
+            finally {
+
+                button.disabled =
+                    false;
+
+
+                button.textContent =
+                    "✍ Ký & gọi";
+
+            }
+
+}        /* =========================================================
+                   XÁC NHẬN CHỮ KÝ CỦA B
+
+                   LƯU Ý:
+                   Backend phần B hiện tại vẫn đang dùng cơ chế cũ:
+                   NhanCuocGoiDTO nhận PrivateKeyRSA.
+
+                   Vì vậy đây chỉ là phần TẠM THỜI để không làm hỏng
+                   chức năng cũ của dự án.
+
+                   Sau khi test A thành công, bước tiếp theo chúng ta sẽ
+                   sửa B giống A:
+                   PIN → mở Private Key → B tự ký trên trình duyệt
+                   → chỉ gửi chữ ký lên Server.
+                   ========================================================= */
+
+                async function confirmBSignature() {
+
+                    if (!currentCallId) {
+
+                        alert(
+                            "Không xác định được cuộc gọi hiện tại."
+                        );
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Backend B hiện vẫn yêu cầu PrivateKeyRSA.
+                     *
+                     * Không sử dụng Private Key mới được bảo vệ bằng PIN
+                     * để gửi lên Server vì điều đó phá vỡ thiết kế bảo mật.
+                     *
+                     * Do đó trong giai đoạn hiện tại ta CHƯA cho B ký
+                     * bằng khóa mới.
+                     */
+
+                    alert(
+                        "Phần xác thực người gọi A đã được chuyển sang cơ chế mới.\n\n" +
+                        "Phần chữ ký của người nhận B chưa được chuyển đổi ở bước này.\n" +
+                        "Sau khi kiểm tra A gọi thành công, chúng ta sẽ sửa B tiếp."
+                    );
+
+                }
+
+
+                /* =========================================================
+                   BẮT ĐẦU ĐẾM THỜI GIAN CUỘC GỌI
+                   ========================================================= */
+
+                function startCallTimer() {
+
+                    stopCallTimer();
+
+
+                    callSeconds =
+                        0;
+
+
+                    updateCallTimer();
+
+
+                    callTimerInterval =
+                        setInterval(
+                            function () {
+
+                                callSeconds++;
+
+
+                                updateCallTimer();
+
+                            },
+                            1000
+                        );
+
+                }
+
+
+                /* =========================================================
+                   DỪNG ĐẾM THỜI GIAN
+                   ========================================================= */
+
+                function stopCallTimer() {
+
+                    if (
+                        callTimerInterval
+                    ) {
+
+                        clearInterval(
+                            callTimerInterval
+                        );
+
+
+                        callTimerInterval =
+                            null;
+
+                    }
+
+                }
+
+
+                /* =========================================================
+                   CẬP NHẬT TIMER
+                   ========================================================= */
+
+                function updateCallTimer() {
+
+                    const minutes =
+                        Math.floor(
+                            callSeconds /
+                            60
+                        );
+
+
+                    const seconds =
+                        callSeconds %
+                        60;
+
+
+                    const minuteText =
+                        String(
+                            minutes
+                        )
+                            .padStart(
+                                2,
+                                "0"
+                            );
+
+
+                    const secondText =
+                        String(
+                            seconds
+                        )
+                            .padStart(
+                                2,
+                                "0"
+                            );
+
+
+                    $("callTimer")
+                        .textContent =
+                        minuteText +
+                        ":" +
+                        secondText;
+
+                }
+
+
+                /* =========================================================
+                   GHI ÂM
+
+                   Hiện tại đây là phần giao diện trạng thái.
+                   Phần MediaRecorder + AES-GCM của file ghi âm sẽ được
+                   tích hợp ở bước ghi âm sau.
+                   ========================================================= */
+
+                function toggleRecording() {
+
+                    if (!currentCallId) {
+
+                        alert(
+                            "Chưa có cuộc gọi đang hoạt động."
+                        );
+
+                        return;
+
+                    }
+
+
+                    isRecording =
+                        !isRecording;
+
+
+                    const button =
+                        $("recordBtn");
+
+
+                    if (
+                        isRecording
+                    ) {
+
+                        button.textContent =
+                            "⏹ Dừng ghi âm";
+
+
+                        button.style.background =
+                            "#fee2e2";
+
+
+                        button.style.color =
+                            "#dc2626";
+
+                    }
+                    else {
+
+                        button.textContent =
+                            "🔴 Ghi âm";
+
+
+                        button.style.background =
+                            "";
+
+
+                        button.style.color =
+                            "";
+
+                    }
+
+                }
+
+
+                /* =========================================================
+                   MỞ MODAL CHUYỂN TIẾP
+                   ========================================================= */
+
+                function openTransferModal() {
+
+                    if (!currentCallId) {
+
+                        alert(
+                            "Chưa có cuộc gọi để chuyển tiếp."
+                        );
+
+                        return;
+
+                    }
+
+
+                    $("transferNumber")
+                        .value =
+                        "";
+
+
+                    $("transferModal")
+                        .classList
+                        .add(
+                            "show"
+                        );
+
+
+                    setTimeout(
+                        function () {
+
+                            $("transferNumber")
+                                .focus();
+
+                        },
+                        100
+                    );
+
+                }
+
+
+                /* =========================================================
+                   ĐÓNG MODAL CHUYỂN TIẾP
+                   ========================================================= */
+
+                function closeTransferModal() {
+
+                    $("transferModal")
+                        .classList
+                        .remove(
+                            "show"
+                        );
+
+
+                    $("transferNumber")
+                        .value =
+                        "";
+
+                }
+
+
+                /* =========================================================
+                   CHUYỂN TIẾP CUỘC GỌI
+
+                   Endpoint chuyển tiếp có thể khác tùy phiên bản
+                   CuocGoiController hiện tại.
+
+                   Ta chỉ gọi endpoint khi có đủ dữ liệu.
+                   ========================================================= */
+
+                async function transferCall() {
+
+                    const soMayMoi =
+                        $("transferNumber")
+                            .value
+                            .trim();
+
+
+                    if (!soMayMoi) {
+
+                        alert(
+                            "Vui lòng nhập số máy cần chuyển tiếp."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        !/^\d+$/.test(
+                            soMayMoi
+                        )
+                    ) {
+
+                        alert(
+                            "Số máy không hợp lệ."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (!currentCallId) {
+
+                        alert(
+                            "Không xác định được cuộc gọi."
+                        );
+
+                        return;
+
+                    }
+
+
+                    try {
+
+                        /*
+                         * Nếu controller hiện tại của bạn chưa có endpoint
+                         * ChuyenTiep thì phần này chưa được gọi trong
+                         * quá trình test chữ ký A.
+                         */
+
+                        await apiFetch(
+                            "/api/CuocGoi/" +
+                            currentCallId +
+                            "/ChuyenTiep",
+                            {
+                                method:
+                                    "PUT",
+
+                                body: {
+
+                                    SoMayMoi:
+                                        soMayMoi
+
+                                }
+                            }
+                        );
+
+
+                        closeTransferModal();
+
+
+                        alert(
+                            "Đã chuyển tiếp cuộc gọi đến số máy " +
+                            soMayMoi +
+                            "."
+                        );
+
+                    }
+                    catch (error) {
+
+                        alert(
+                            "Không thể chuyển tiếp cuộc gọi:\n" +
+                            error.message
+                        );
+
+                    }
+
+                }
+
+
+                /* =========================================================
+                   KẾT THÚC CUỘC GỌI
+                   ========================================================= */
+
+                async function endCall() {
+
+                    if (!currentCallId) {
+
+                        resetCallState();
+
+
+                        showPage(
+                            "extensions"
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    const callId =
+                        currentCallId;
+
+
+                    try {
+
+                        /*
+                         * Controller của dự án dùng thao tác kết thúc
+                         * cuộc gọi theo MaCuocGoi.
+                         */
+
+                        await apiFetch(
+                            "/api/CuocGoi/" +
+                            callId +
+                            "/KetThuc",
+                            {
+                                method:
+                                    "PUT"
+                            }
+                        );
+
+
+                        stopCallTimer();
+
+
+                        alert(
+                            "Cuộc gọi đã kết thúc."
+                        );
+
+
+                        resetCallState();
+
+
+                        showPage(
+                            "history"
+                        );
+
+                    }
+                    catch (error) {
+
+                        /*
+                         * Không reset currentCallId nếu Server từ chối,
+                         * để người dùng còn có thể thử lại.
+                         */
+
+                        alert(
+                            "Không thể kết thúc cuộc gọi:\n" +
+                            error.message
+                        );
+
+                    }
+
+                }
+
+
+                /* =========================================================
+                   RESET TRẠNG THÁI CUỘC GỌI
+                   ========================================================= */
+
+                function resetCallState() {
+
+                    stopCallTimer();
+
+
+                    currentCallId =
+                        null;
+
+
+                    currentCallNumber =
+                        "";
+
+
+                    currentCallName =
+                        "";
+
+
+                    callSeconds =
+                        0;
+
+
+                    isRecording =
+                        false;
+
+
+                    waitingForB =
+                        false;
+
+
+                    if (
+                        $("callTimer")
+                    ) {
+
+                        $("callTimer")
+                            .textContent =
+                            "00:00";
+
+                    }
+
+
+                    if (
+                        $("callName")
+                    ) {
+
+                        $("callName")
+                            .textContent =
+                            "---";
+
+                    }
+
+
+                    if (
+                        $("callNumber")
+                    ) {
+
+                        $("callNumber")
+                            .textContent =
+                            "---";
+
+                    }
+
+
+                    if (
+                        $("callStatus")
+                    ) {
+
+                        $("callStatus")
+                            .textContent =
+                            "Đang chuẩn bị cuộc gọi...";
+
+                    }
+
+
+                    if (
+                        $("recordBtn")
+                    ) {
+
+                        $("recordBtn")
+                            .textContent =
+                            "🔴 Ghi âm";
+
+
+                        $("recordBtn")
+                            .style
+                            .background =
+                            "";
+
+
+                        $("recordBtn")
+                            .style
+                            .color =
+                            "";
+
+                    }
+
+
+                    if (
+                        $("confirmBButton")
+                    ) {
+
+                        $("confirmBButton")
+                            .style
+                            .display =
+                            "none";
+
+                    }
+
+
+                    resetSignatureDisplay();
+
+                }
+
+
+                /* =========================================================
+                   RESET GIAO DIỆN CHỮ KÝ
+                   ========================================================= */
+
+                function resetSignatureDisplay() {
+
+                    if (
+                        $("signAStatus")
+                    ) {
+
+                        $("signAStatus")
+                            .textContent =
+                            "⏳ Người gọi A: Chưa ký";
+
+
+                        $("signAStatus")
+                            .className =
+                            "signature-row signature-waiting";
+
+                    }
+
+
+                    if (
+                        $("verifyAStatus")
+                    ) {
+
+                        $("verifyAStatus")
+                            .textContent =
+                            "⏳ Server: Chưa xác thực chữ ký A";
+
+
+                        $("verifyAStatus")
+                            .className =
+                            "signature-row signature-waiting";
+
+                    }
+
+
+                    if (
+                        $("signBStatus")
+                    ) {
+
+                        $("signBStatus")
+                            .textContent =
+                            "⏳ Người nhận B: Chờ ký";
+
+
+                        $("signBStatus")
+                            .className =
+                            "signature-row signature-waiting";
+
+                    }
+
+
+                    if (
+                        $("verifyBStatus")
+                    ) {
+
+                        $("verifyBStatus")
+                            .textContent =
+                            "⏳ Server: Chờ xác thực chữ ký B";
+
+
+                        $("verifyBStatus")
+                            .className =
+                            "signature-row signature-waiting";
+
+                    }
+
+                }
+
+
+                /* =========================================================
+                   LỊCH SỬ CUỘC GỌI
+                   ========================================================= */
+
+                async function loadCallHistory() {
+
+                    const body =
+                        $("historyBody");
+
+
+                    if (!body) {
+
+                        return;
+
+                    }
+
+
+                    if (!accessToken) {
+
+                        return;
+
+                    }
+
+
+                    body.innerHTML =
+                        `
+                            <tr>
+                                <td colspan="5"
+                                    class="text-center text-muted">
+                                    Đang tải dữ liệu...
+                                </td>
+                            </tr>
+                        `;
+
+
+                    try {
+
+                        /*
+                         * Endpoint lịch sử của CuocGoiController.
+                         */
+
+                        const data =
+                            await apiFetch(
+                                "/api/CuocGoi/LichSu"
+                            );
+
+
+                        // =================================================
+                        // CHẤP NHẬN CẢ:
+                        //
+                        // [ ... ]
+                        //
+                        // hoặc:
+                        //
+                        // {
+                        //     DanhSach: [...]
+                        // }
+                        // =================================================
+
+                        const list =
+
+                            Array.isArray(
+                                data
+                            )
+
+                                ? data
+
+                                : (
+
+                                    data?.DanhSach ||
+                                    data?.danhSach ||
+                                    data?.DuLieu ||
+                                    data?.duLieu ||
+                                    []
+
+                                );
+
+
+                        if (
+                            !Array.isArray(list) ||
+                            list.length === 0
+                        ) {
+
+                            body.innerHTML =
+                                `
+                                    <tr>
+                                        <td colspan="5"
+                                            class="text-center text-muted">
+                                            Chưa có dữ liệu cuộc gọi.
+                                        </td>
+                                    </tr>
+                                `;
+
+
+                            return;
+
+                        }
+
+
+                        body.innerHTML =
+                            "";
+
+
+                        list.forEach(
+                            function (item) {
+
+                                const nguoiGoi =
+
+                                    item?.TenNguoiGoi ??
+                                    item?.tenNguoiGoi ??
+                                    item?.NguoiGoi ??
+                                    item?.nguoiGoi ??
+                                    item?.MaNguoiGoi ??
+                                    item?.maNguoiGoi ??
+                                    "---";
+
+
+                                const nguoiNhan =
+
+                                    item?.TenNguoiNhan ??
+                                    item?.tenNguoiNhan ??
+                                    item?.NguoiNhan ??
+                                    item?.nguoiNhan ??
+                                    item?.MaNguoiNhan ??
+                                    item?.maNguoiNhan ??
+                                    "---";
+
+
+                                const thoiGianRaw =
+
+                                    item?.ThoiGianBatDau ??
+                                    item?.thoiGianBatDau ??
+                                    item?.NgayGoi ??
+                                    item?.ngayGoi;
+
+
+                                const thoiGian =
+                                    formatDateTime(
+                                        thoiGianRaw
+                                    );
+
+
+                                const thoiLuongRaw =
+
+                                    item?.ThoiLuong ??
+                                    item?.thoiLuong;
+
+
+                                const thoiLuong =
+                                    formatDuration(
+                                        thoiLuongRaw
+                                    );
+
+
+                                const trangThai =
+
+                                    item?.TrangThai ??
+                                    item?.trangThai ??
+                                    "---";
+
+
+                                const row =
+                                    document.createElement(
+                                        "tr"
+                                    );
+
+
+                                row.innerHTML =
+
+                                    "<td>" +
+                                    escapeHtml(
+                                        String(
+                                            nguoiGoi
+                                        )
+                                    ) +
+                                    "</td>" +
+
+                                    "<td>" +
+                                    escapeHtml(
+                                        String(
+                                            nguoiNhan
+                                        )
+                                    ) +
+                                    "</td>" +
+
+                                    "<td>" +
+                                    escapeHtml(
+                                        thoiGian
+                                    ) +
+                                    "</td>" +
+
+                                    "<td>" +
+                                    escapeHtml(
+                                        thoiLuong
+                                    ) +
+                                    "</td>" +
+
+                                    "<td>" +
+                                    createStatusBadge(
+                                        trangThai
+                                    ) +
+                                    "</td>";
+
+
+                                body.appendChild(
+                                    row
+                                );
+
+                            }
+                        );
+
+                    }
+                    catch (error) {
+
+                        console.error(
+                            "Lỗi tải lịch sử:",
+                            error
+                        );
+
+
+                        body.innerHTML =
+                            `
+                                <tr>
+                                    <td colspan="5"
+                                        class="text-center text-danger">
+                                        Không tải được lịch sử cuộc gọi.
+                                    </td>
+                                </tr>
+                            `;
+
+                    }
+
+                }
+
+
+                /* =========================================================
+                   FORMAT DATETIME
+                   ========================================================= */
+
+                function formatDateTime(
+                    value
+                ) {
+
+                    if (!value) {
+
+                        return "---";
+
+                    }
+
+
+                    const date =
+                        new Date(
+                            value
+                        );
+
+
+                    if (
+                        Number.isNaN(
+                            date.getTime()
+                        )
+                    ) {
+
+                        return String(
+                            value
+                        );
+
+                    }
+
+
+                    return date.toLocaleString(
+                        "vi-VN"
+                    );
+
+                }
+
+
+                /* =========================================================
+                   FORMAT THỜI LƯỢNG
+                   ========================================================= */
+
+                function formatDuration(
+                    value
+                ) {
+
+                    if (
+                        value === null ||
+                        value === undefined
+                    ) {
+
+                        return "---";
+
+                    }
+
+
+                    const totalSeconds =
+                        Number(
+                            value
+                        );
+
+
+                    if (
+                        !Number.isFinite(
+                            totalSeconds
+                        )
+                    ) {
+
+                        return String(
+                            value
+                        );
+
+                    }
+
+
+                    const minutes =
+                        Math.floor(
+                            totalSeconds /
+                            60
+                        );
+
+
+                    const seconds =
+                        Math.floor(
+                            totalSeconds %
+                            60
+                        );
+
+
+                    return (
+                        String(minutes)
+                            .padStart(
+                                2,
+                                "0"
+                            )
+                        +
+                        ":"
+                        +
+                        String(seconds)
+                            .padStart(
+                                2,
+                                "0"
+                            )
+                    );
+
+                }
+
+
+                /* =========================================================
+                   BADGE TRẠNG THÁI
+                   ========================================================= */
+
+                function createStatusBadge(
+                    status
+                ) {
+
+                    const value =
+                        String(
+                            status ||
+                            "---"
+                        );
+
+
+                    const normalized =
+                        value.toLowerCase();
+
+
+                    let className =
+                        "badge-status yellow";
+
+
+                    if (
+                        normalized.includes(
+                            "ketthuc"
+                        )
+                        ||
+                        normalized.includes(
+                            "hoanthanh"
+                        )
+                        ||
+                        normalized.includes(
+                            "thanhcong"
+                        )
+                    ) {
+
+                        className =
+                            "badge-status green";
+
+                    }
+
+
+                    if (
+                        normalized.includes(
+                            "tuchoi"
+                        )
+                        ||
+                        normalized.includes(
+                            "thatbai"
+                        )
+                        ||
+                        normalized.includes(
+                            "loi"
+                        )
+                    ) {
+
+                        className =
+                            "badge-status red";
+
+                    }
+
+
+                    return (
+                        '<span class="' +
+                        className +
+                        '">' +
+                        escapeHtml(value) +
+                        "</span>"
+                    );
+
+                }
+
+
+                /* =========================================================
+                   ESCAPE HTML
+                   ========================================================= */
+
+                function escapeHtml(
+                    value
+                ) {
+
+                    return String(
+                        value
+                    )
+                        .replaceAll(
+                            "&",
+                            "&amp;"
+                        )
+                        .replaceAll(
+                            "<",
+                            "&lt;"
+                        )
+                        .replaceAll(
+                            ">",
+                            "&gt;"
+                        )
+                        .replaceAll(
+                            '"',
+                            "&quot;"
+                        )
+                        .replaceAll(
+                            "'",
+                            "&#039;"
+                        );
+
+                }
+
+
+                /* =========================================================
+                   LOGOUT
+                   ========================================================= */
+
+                function logout(
+                    askConfirmation = true
+                ) {
+
+                    if (
+                        askConfirmation
+                    ) {
+
+                        const ok =
+                            confirm(
+                                "Bạn có chắc muốn đăng xuất không?"
+                            );
+
+
+                        if (!ok) {
+
+                            return;
+
+                        }
+
+                    }
+
+
+                    // =====================================================
+                    // DỪNG CUỘC GỌI PHÍA GIAO DIỆN
+                    // =====================================================
+
+                    stopCallTimer();
+
+
+                    // =====================================================
+                    // CHỈ XÓA SESSION.
+                    //
+                    // KHÔNG XÓA:
+                    // TongDai_RSA_PrivateKey_{MaTaiKhoan}
+                    //
+                    // vì Private Key mã hóa phải còn trên thiết bị.
+                    // =====================================================
+
+                    localStorage.removeItem(
+                        "accessToken"
+                    );
+
+
+                    localStorage.removeItem(
+                        "currentUser"
+                    );
+
+
+                    accessToken =
+                        "";
+
+
+                    currentUser =
+                        null;
+
+
+                    currentCallId =
+                        null;
+
+
+                    currentCallNumber =
+                        "";
+
+
+                    currentCallName =
+                        "";
+
+
+                    waitingForB =
+                        false;
+
+
+                    isRecording =
+                        false;
+
+
+                    $("app")
+                        .style
+                        .display =
+                        "none";
+
+
+                    $("loginPage")
+                        .style
+                        .display =
+                        "flex";
+
+
+                    $("username")
+                        .value =
+                        "";
+
+
+                    $("password")
+                        .value =
+                        "";
+
+
+                    $("password")
+                        .type =
+                        "password";
+
+
+                    $("togglePassword")
+                        .textContent =
+                        "Hiện";
+
+
+                    $("loginMessage")
+                        .textContent =
+                        "";
+
+
+                    resetSignatureDisplay();
+
+
+                    setTimeout(
+                        function () {
+
+                            $("username")
+                                .focus();
+
+                        },
+                        100
+                    );
+
+                }
+
+
+                /* =========================================================
+                   BUTTON LOGOUT
+                   ========================================================= */
+
+                $("logoutBtn")
+                    .addEventListener(
+                        "click",
+                        function () {
+
+                            logout(
+                                true
+                            );
+
+                        }
+                    );
+
+
+                /* =========================================================
+                   CLICK RA NGOÀI MODAL → KHÔNG TỰ ĐÓNG MODAL KÝ
+
+                   Với modal ký số, tránh người dùng vô tình click ra ngoài
+                   làm mất thao tác đang thực hiện.
+                   ========================================================= */
+
+                $("transferModal")
+                    .addEventListener(
+                        "click",
+                        function (event) {
+
+                            if (
+                                event.target ===
+                                this
+                            ) {
+
+                                closeTransferModal();
+
+                            }
+
+                        }
+                    );
+
+
+                /* =========================================================
+                   ESC ĐÓNG MODAL
+                   ========================================================= */
+
+                document.addEventListener(
+                    "keydown",
+                    function (event) {
+
+                        if (
+                            event.key !==
+                            "Escape"
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        if (
+                            $("transferModal")
+                                .classList
+                                .contains(
+                                    "show"
+                                )
+                        ) {
+
+                            closeTransferModal();
+
+                        }
+
+
+                        if (
+                            $("signCallModal")
+                                .classList
+                                .contains(
+                                    "show"
+                                )
+                        ) {
+
+                            closeSignCallModal();
+
+                        }
+
+                    }
+                );
+
+
+                /* =========================================================
+                   KIỂM TRA WEB CRYPTO
+                   ========================================================= */
+
+                function checkWebCryptoSupport() {
+
+                    if (
+                        !window.crypto ||
+                        !window.crypto.subtle
+                    ) {
+
+                        alert(
+                            "Trình duyệt hiện tại không hỗ trợ Web Crypto API.\n\n" +
+                            "Vui lòng sử dụng Microsoft Edge hoặc Google Chrome."
+                        );
+
+
+                        const button =
+                            $("setupSignatureButton");
+
+
+                        if (button) {
+
+                            button.disabled =
+                                true;
+
+                        }
+
+
+                        return false;
+
+                    }
+
+
+                    return true;
+
+                }
+
+
+                /* =========================================================
+                   KHỞI TẠO TRANG
+                   ========================================================= */
+
+                function initializeApplication() {
+
+                    checkWebCryptoSupport();
+
+
+                    resetSignatureDisplay();
+
+
+                    restoreSession();
+
+
+                    updateSignatureDeviceStatus();
+
+                }
+
+
+                initializeApplication();
+
     </script>
+
 </body>
 </html>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TongDaiNoiBo.Data;
+using TongDaiNoiBo.Models;
 
 namespace TongDaiNoiBo.Controllers
 {
@@ -11,184 +12,187 @@ namespace TongDaiNoiBo.Controllers
     {
         private readonly TongDaiDbContext _context;
 
-        public SoMayNoiBoController(TongDaiDbContext context)
+        public SoMayNoiBoController(
+            TongDaiDbContext context)
         {
             _context = context;
         }
 
 
-        // ==========================================
-        // 1. LẤY DANH SÁCH TẤT CẢ SỐ MÁY
-        // ==========================================
+        // =========================================================
+        // 1. LẤY DANH SÁCH SỐ MÁY
+        // GET: /api/SoMayNoiBo
+        // =========================================================
 
-        [Authorize(Roles = "Admin")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> LayDanhSachSoMay()
         {
             try
             {
-                var danhSach = await _context.SoMayNoiBo
-                    .Include(x => x.TaiKhoan)
-                    .OrderBy(x => x.SoMay)
-                    .Select(x => new
-                    {
-                        x.MaSoMay,
-                        x.SoMay,
-                        x.TrangThai,
-
-                        MaTaiKhoan = x.MaTaiKhoan,
-
-                        TenDangNhap =
-                            x.TaiKhoan != null
-                                ? x.TaiKhoan.TenDangNhap
-                                : null,
-
-                        HoTen =
-                            x.TaiKhoan != null
-                                ? x.TaiKhoan.HoTen
-                                : null
-                    })
-                    .ToListAsync();
-
-                return Ok(danhSach);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    ThongBao =
-                        "Lỗi khi lấy danh sách số máy!",
-
-                    ChiTiet =
-                        ex.Message
-                });
-            }
-        }
-
-
-        // ==========================================
-        // 2. LẤY CÁC SỐ MÁY CHƯA CẤP
-        // ==========================================
-
-        [Authorize(Roles = "Admin")]
-        [HttpGet("ChuaCap")]
-        public async Task<IActionResult> LaySoMayChuaCap()
-        {
-            try
-            {
                 var danhSach =
                     await _context.SoMayNoiBo
-                        .Where(x => x.MaTaiKhoan == null)
-                        .OrderBy(x => x.SoMay)
+                        .Include(x => x.TaiKhoan)
+                        .OrderBy(x => x.MaSoMay)
                         .Select(x => new
                         {
                             x.MaSoMay,
+
                             x.SoMay,
+
+                            x.MaTaiKhoan,
+
+                            TenDangNhap =
+                                x.TaiKhoan != null
+                                    ? x.TaiKhoan.TenDangNhap
+                                    : null,
+
+                            HoTen =
+                                x.TaiKhoan != null
+                                    ? x.TaiKhoan.HoTen
+                                    : null,
+
                             x.TrangThai
                         })
                         .ToListAsync();
 
                 return Ok(danhSach);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, new
-                {
-                    ThongBao =
-                        "Lỗi khi lấy danh sách số máy chưa cấp!",
-
-                    ChiTiet =
-                        ex.Message
-                });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        ThongBao =
+                            "Lỗi khi lấy danh sách số máy!"
+                    }
+                );
             }
         }
 
 
-        // ==========================================
-        // 3. LẤY SỐ MÁY CỦA MỘT TÀI KHOẢN
-        // ==========================================
+        // =========================================================
+        // 2. XEM CHI TIẾT SỐ MÁY
+        // GET: /api/SoMayNoiBo/1
+        // =========================================================
 
         [Authorize]
-        [HttpGet("CuaTaiKhoan/{maTaiKhoan}")]
-        public async Task<IActionResult> LaySoMayCuaTaiKhoan(
-            int maTaiKhoan)
+        [HttpGet("{maSoMay}")]
+        public async Task<IActionResult> LayChiTietSoMay(
+            int maSoMay)
         {
             try
             {
+                if (maSoMay <= 0)
+                {
+                    return BadRequest(
+                        new
+                        {
+                            ThongBao =
+                                "Mã số máy không hợp lệ!"
+                        }
+                    );
+                }
+
                 var soMay =
                     await _context.SoMayNoiBo
                         .Include(x => x.TaiKhoan)
-                        .Where(x =>
-                            x.MaTaiKhoan == maTaiKhoan)
-                        .Select(x => new
-                        {
-                            x.MaSoMay,
-                            x.SoMay,
-                            x.TrangThai,
-
-                            MaTaiKhoan =
-                                x.MaTaiKhoan,
-
-                            TenDangNhap =
-                                x.TaiKhoan != null
-                                    ? x.TaiKhoan.TenDangNhap
-                                    : null,
-
-                            HoTen =
-                                x.TaiKhoan != null
-                                    ? x.TaiKhoan.HoTen
-                                    : null
-                        })
-                        .FirstOrDefaultAsync();
+                        .FirstOrDefaultAsync(
+                            x =>
+                                x.MaSoMay == maSoMay
+                        );
 
                 if (soMay == null)
                 {
-                    return NotFound(new
-                    {
-                        ThongBao =
-                            "Tài khoản này chưa được cấp số máy!"
-                    });
+                    return NotFound(
+                        new
+                        {
+                            ThongBao =
+                                "Số máy không tồn tại!"
+                        }
+                    );
                 }
 
-                return Ok(soMay);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    ThongBao =
-                        "Lỗi khi lấy số máy của tài khoản!",
+                return Ok(
+                    new
+                    {
+                        soMay.MaSoMay,
 
-                    ChiTiet =
-                        ex.Message
-                });
+                        soMay.SoMay,
+
+                        soMay.MaTaiKhoan,
+
+                        TenDangNhap =
+                            soMay.TaiKhoan != null
+                                ? soMay.TaiKhoan.TenDangNhap
+                                : null,
+
+                        HoTen =
+                            soMay.TaiKhoan != null
+                                ? soMay.TaiKhoan.HoTen
+                                : null,
+
+                        Email =
+                            soMay.TaiKhoan != null
+                                ? soMay.TaiKhoan.Email
+                                : null,
+
+                        soMay.TrangThai
+                    }
+                );
+            }
+            catch (Exception)
+            {
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        ThongBao =
+                            "Lỗi khi lấy thông tin số máy!"
+                    }
+                );
             }
         }
 
 
-        // ==========================================
-        // 4. KIỂM TRA MỘT SỐ MÁY
-        // ==========================================
+        // =========================================================
+        // 3. TÌM SỐ MÁY
+        // GET: /api/SoMayNoiBo/TimKiem/101
+        // =========================================================
 
         [Authorize]
-        [HttpGet("KiemTra/{soMay}")]
-        public async Task<IActionResult> KiemTraSoMay(
+        [HttpGet("TimKiem/{soMay}")]
+        public async Task<IActionResult> TimKiemSoMay(
             string soMay)
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(soMay))
+                {
+                    return BadRequest(
+                        new
+                        {
+                            ThongBao =
+                                "Vui lòng nhập số máy!"
+                        }
+                    );
+                }
+
                 var ketQua =
                     await _context.SoMayNoiBo
                         .Include(x => x.TaiKhoan)
-                        .Where(x => x.SoMay == soMay)
+                        .Where(
+                            x =>
+                                x.SoMay == soMay
+                        )
                         .Select(x => new
                         {
                             x.MaSoMay,
-                            x.SoMay,
-                            x.TrangThai,
 
-                            MaTaiKhoan =
-                                x.MaTaiKhoan,
+                            x.SoMay,
+
+                            x.MaTaiKhoan,
 
                             TenDangNhap =
                                 x.TaiKhoan != null
@@ -198,31 +202,35 @@ namespace TongDaiNoiBo.Controllers
                             HoTen =
                                 x.TaiKhoan != null
                                     ? x.TaiKhoan.HoTen
-                                    : null
+                                    : null,
+
+                            x.TrangThai
                         })
                         .FirstOrDefaultAsync();
 
                 if (ketQua == null)
                 {
-                    return NotFound(new
-                    {
-                        ThongBao =
-                            "Số máy nội bộ không tồn tại!"
-                    });
+                    return NotFound(
+                        new
+                        {
+                            ThongBao =
+                                "Không tìm thấy số máy!"
+                        }
+                    );
                 }
 
                 return Ok(ketQua);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return StatusCode(500, new
-                {
-                    ThongBao =
-                        "Lỗi khi kiểm tra số máy!",
-
-                    ChiTiet =
-                        ex.Message
-                });
+                return StatusCode(
+                    500,
+                    new
+                    {
+                        ThongBao =
+                            "Lỗi khi tìm kiếm số máy!"
+                    }
+                );
             }
         }
     }

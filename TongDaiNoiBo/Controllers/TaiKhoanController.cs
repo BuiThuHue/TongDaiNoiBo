@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using TongDaiNoiBo.Data;
 using TongDaiNoiBo.DTOs;
 using TongDaiNoiBo.Models;
@@ -23,476 +24,446 @@ namespace TongDaiNoiBo.Controllers
             _rsaService = rsaService;
         }
 
-
-        // ==========================================
+        // =========================================================
         // 1. LẤY DANH SÁCH TÀI KHOẢN
-        // ==========================================
-
-        [Authorize(Roles = "Admin")]
+        // =========================================================
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> LayDanhSachTaiKhoan()
         {
-            try
-            {
-                var danhSach = await _context.TaiKhoan
-                    .Select(x => new
-                    {
-                        x.MaTaiKhoan,
-                        x.TenDangNhap,
-                        x.HoTen,
-                        x.Email,
-                        x.VaiTro,
-                        x.TrangThai,
-                        x.SoLanDangNhapSai,
-                        x.NgayTao
-                    })
-                    .ToListAsync();
-
-                return Ok(danhSach);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new
+            var danhSach = await _context.TaiKhoan
+                .Select(tk => new
                 {
-                    ThongBao =
-                        "Lỗi khi đọc danh sách tài khoản!"
-                });
-            }
+                    tk.MaTaiKhoan,
+                    tk.TenDangNhap,
+                    tk.HoTen,
+                    tk.Email,
+                    tk.VaiTro,
+                    tk.TrangThai,
+                    tk.SoLanDangNhapSai,
+                    tk.NgayTao,
+
+                    CoPublicKeyRSA =
+                        !string.IsNullOrEmpty(tk.PublicKeyRSA)
+                })
+                .ToListAsync();
+
+            return Ok(danhSach);
         }
 
-
-        // ==========================================
-        // 2. KIỂM TRA API BẢO MẬT
-        // ==========================================
-
+        // =========================================================
+        // 2. LẤY THÔNG TIN MỘT TÀI KHOẢN
+        // =========================================================
         [Authorize]
-        [HttpGet("BaoMat")]
-        public IActionResult KiemTraBaoMat()
+        [HttpGet("{maTaiKhoan}")]
+        public async Task<IActionResult> LayTaiKhoan(
+            int maTaiKhoan)
         {
+            var taiKhoan = await _context.TaiKhoan
+                .Where(tk => tk.MaTaiKhoan == maTaiKhoan)
+                .Select(tk => new
+                {
+                    tk.MaTaiKhoan,
+                    tk.TenDangNhap,
+                    tk.HoTen,
+                    tk.Email,
+                    tk.VaiTro,
+                    tk.TrangThai,
+                    tk.SoLanDangNhapSai,
+                    tk.NgayTao,
+
+                    CoPublicKeyRSA =
+                        !string.IsNullOrEmpty(tk.PublicKeyRSA)
+                })
+                .FirstOrDefaultAsync();
+
+            if (taiKhoan == null)
+            {
+                return NotFound(new
+                {
+                    ThongBao = "Không tìm thấy tài khoản!"
+                });
+            }
+
+            return Ok(taiKhoan);
+        }
+
+        // =========================================================
+        // 3. ADMIN TẠO TÀI KHOẢN NHÂN VIÊN
+        // =========================================================
+        [Authorize(Roles = "Admin")]
+        [HttpPost("TaoTaiKhoan")]
+        public async Task<IActionResult> TaoTaiKhoan(
+            [FromBody] TaoTaiKhoanDTO dto)
+        {
+            // Kiểm tra dữ liệu
+            if (string.IsNullOrWhiteSpace(dto.TenDangNhap) ||
+                string.IsNullOrWhiteSpace(dto.MatKhau) ||
+                string.IsNullOrWhiteSpace(dto.HoTen) ||
+                string.IsNullOrWhiteSpace(dto.SoMay))
+            {
+                return BadRequest(new
+                {
+                    ThongBao =
+                        "Vui lòng nhập đầy đủ tên đăng nhập, mật khẩu, họ tên và số máy!"
+                });
+            }
+
+            // Kiểm tra tên đăng nhập
+            bool tonTaiTenDangNhap =
+                await _context.TaiKhoan.AnyAsync(
+                    tk => tk.TenDangNhap == dto.TenDangNhap
+                );
+
+            if (tonTaiTenDangNhap)
+            {
+                return BadRequest(new
+                {
+                    ThongBao = "Tên đăng nhập đã tồn tại!"
+                });
+            }
+
+            // Kiểm tra số máy
+            bool tonTaiSoMay =
+                await _context.SoMayNoiBo.AnyAsync(
+                    sm => sm.SoMay == dto.SoMay
+                );
+
+            if (tonTaiSoMay)
+            {
+                return BadRequest(new
+                {
+                    ThongBao = "Số máy nội bộ đã tồn tại!"
+                });
+            }
+
+            // =====================================================
+            // Tạm thời vẫn giữ cách tạo RSA cũ
+            // để các chức năng hiện tại chưa bị hỏng.
+            //
+            // Sau khi hoàn thành ký số phía Client,
+            // chúng ta sẽ sửa phần này.
+            // =====================================================
+            var capKhoa =
+                _rsaService.TaoCapKhoaRSA();
+
+            // Băm mật khẩu bằng BCrypt
+            string matKhauDaBam =
+                BCrypt.Net.BCrypt.HashPassword(
+                    dto.MatKhau
+                );
+
+            // Tạo tài khoản
+            var taiKhoan = new TaiKhoan
+            {
+                TenDangNhap = dto.TenDangNhap,
+                MatKhau = matKhauDaBam,
+                HoTen = dto.HoTen,
+                Email = dto.Email,
+
+                VaiTro = "NhanVien",
+                TrangThai = "HoatDong",
+
+                SoLanDangNhapSai = 0,
+                NgayTao = DateTime.UtcNow,
+
+                PublicKeyRSA = capKhoa.PublicKey
+            };
+
+            _context.TaiKhoan.Add(taiKhoan);
+
+            // Lưu để lấy MaTaiKhoan
+            await _context.SaveChangesAsync();
+
+            // Tạo số máy nội bộ
+            var soMay = new SoMayNoiBo
+            {
+                SoMay = dto.SoMay,
+                MaTaiKhoan = taiKhoan.MaTaiKhoan,
+                TrangThai = "DaCap"
+            };
+
+            _context.SoMayNoiBo.Add(soMay);
+
+            // Ghi log
+            var log = new LogHoatDong
+            {
+                MaTaiKhoan = taiKhoan.MaTaiKhoan,
+
+                HanhDong = "TAO_TAI_KHOAN",
+
+                ThoiGian = DateTime.UtcNow,
+
+                DiaChiIP =
+                    HttpContext.Connection
+                        .RemoteIpAddress?
+                        .ToString(),
+
+                NoiDung =
+                    $"Admin tạo tài khoản {taiKhoan.TenDangNhap}, số máy {dto.SoMay}.",
+
+                TrangThai = "ThanhCong"
+            };
+
+            _context.LogHoatDong.Add(log);
+
+            await _context.SaveChangesAsync();
+
             return Ok(new
             {
                 ThongBao =
-                    "Bạn đã đăng nhập và được phép truy cập API bảo mật!"
+                    "Tạo tài khoản nhân viên thành công!",
+
+                taiKhoan.MaTaiKhoan,
+                taiKhoan.TenDangNhap,
+                taiKhoan.HoTen,
+                taiKhoan.VaiTro,
+
+                SoMay = dto.SoMay,
+
+                PublicKeyRSA =
+                    capKhoa.PublicKey,
+
+                PrivateKeyRSA =
+                    capKhoa.PrivateKey
             });
         }
 
-
-        // ==========================================
-        // 3. CHỈ ADMIN ĐƯỢC TRUY CẬP
-        // ==========================================
-
+        // =========================================================
+        // 4. ADMIN KHÓA TÀI KHOẢN
+        // =========================================================
         [Authorize(Roles = "Admin")]
-        [HttpGet("ChiAdmin")]
-        public IActionResult ChiAdmin()
+        [HttpPut("{maTaiKhoan}/Khoa")]
+        public async Task<IActionResult> KhoaTaiKhoan(
+            int maTaiKhoan)
         {
+            var taiKhoan =
+                await _context.TaiKhoan.FindAsync(
+                    maTaiKhoan
+                );
+
+            if (taiKhoan == null)
+            {
+                return NotFound(new
+                {
+                    ThongBao =
+                        "Không tìm thấy tài khoản!"
+                });
+            }
+
+            if (taiKhoan.VaiTro == "Admin")
+            {
+                return BadRequest(new
+                {
+                    ThongBao =
+                        "Không được khóa tài khoản Admin!"
+                });
+            }
+
+            taiKhoan.TrangThai = "BiKhoa";
+
+            var log = new LogHoatDong
+            {
+                MaTaiKhoan = maTaiKhoan,
+
+                HanhDong = "KHOA_TAI_KHOAN",
+
+                ThoiGian = DateTime.UtcNow,
+
+                DiaChiIP =
+                    HttpContext.Connection
+                        .RemoteIpAddress?
+                        .ToString(),
+
+                NoiDung =
+                    $"Tài khoản {taiKhoan.TenDangNhap} bị khóa.",
+
+                TrangThai = "ThanhCong"
+            };
+
+            _context.LogHoatDong.Add(log);
+
+            await _context.SaveChangesAsync();
+
             return Ok(new
             {
                 ThongBao =
-                    "Bạn là Admin nên được phép truy cập chức năng này!"
+                    "Khóa tài khoản thành công!"
             });
         }
 
-
-        // ==========================================
-        // 4. LẤY THÔNG TIN MỘT TÀI KHOẢN
-        // ==========================================
-
-        [Authorize]
-        [HttpGet("{id}")]
-        public async Task<IActionResult> LayTaiKhoan(int id)
-        {
-            try
-            {
-                var taiKhoan = await _context.TaiKhoan
-                    .Where(x => x.MaTaiKhoan == id)
-                    .Select(x => new
-                    {
-                        x.MaTaiKhoan,
-                        x.TenDangNhap,
-                        x.HoTen,
-                        x.Email,
-                        x.VaiTro,
-                        x.TrangThai,
-                        x.SoLanDangNhapSai,
-                        x.NgayTao
-                    })
-                    .FirstOrDefaultAsync();
-
-                if (taiKhoan == null)
-                {
-                    return NotFound(new
-                    {
-                        ThongBao =
-                            "Không tìm thấy tài khoản!"
-                    });
-                }
-
-                return Ok(taiKhoan);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new
-                {
-                    ThongBao =
-                        "Lỗi khi lấy thông tin tài khoản!"
-                });
-            }
-        }
-
-
-        // ==========================================
-        // 5. LẤY TÀI KHOẢN HIỆN TẠI
-        // ==========================================
-
-        [Authorize]
-        [HttpGet("TaiKhoanHienTai")]
-        public async Task<IActionResult> LayTaiKhoanHienTai()
-        {
-            try
-            {
-                var maTaiKhoanClaim =
-                    User.FindFirst(
-                        System.Security.Claims.ClaimTypes.NameIdentifier
-                    )?.Value;
-
-                if (string.IsNullOrEmpty(maTaiKhoanClaim))
-                {
-                    return Unauthorized(new
-                    {
-                        ThongBao =
-                            "Không xác định được tài khoản đăng nhập!"
-                    });
-                }
-
-                if (!int.TryParse(
-                    maTaiKhoanClaim,
-                    out int maTaiKhoan))
-                {
-                    return Unauthorized(new
-                    {
-                        ThongBao =
-                            "Thông tin tài khoản không hợp lệ!"
-                    });
-                }
-
-                var taiKhoan = await _context.TaiKhoan
-                    .Where(x => x.MaTaiKhoan == maTaiKhoan)
-                    .Select(x => new
-                    {
-                        x.MaTaiKhoan,
-                        x.TenDangNhap,
-                        x.HoTen,
-                        x.Email,
-                        x.VaiTro,
-                        x.TrangThai,
-                        x.NgayTao
-                    })
-                    .FirstOrDefaultAsync();
-
-                if (taiKhoan == null)
-                {
-                    return NotFound(new
-                    {
-                        ThongBao =
-                            "Không tìm thấy tài khoản!"
-                    });
-                }
-
-                return Ok(taiKhoan);
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new
-                {
-                    ThongBao =
-                        "Lỗi khi lấy tài khoản hiện tại!"
-                });
-            }
-        }
-
-
-        // ==========================================
-        // 6. ADMIN TẠO TÀI KHOẢN NHÂN VIÊN
-        // ==========================================
-
+        // =========================================================
+        // 5. ADMIN MỞ KHÓA TÀI KHOẢN
+        // =========================================================
         [Authorize(Roles = "Admin")]
-        [HttpPost("TaoNhanVien")]
-        public async Task<IActionResult> TaoNhanVien(
-            TaoTaiKhoanDTO dto)
+        [HttpPut("{maTaiKhoan}/MoKhoa")]
+        public async Task<IActionResult> MoKhoaTaiKhoan(
+            int maTaiKhoan)
         {
-            try
+            var taiKhoan =
+                await _context.TaiKhoan.FindAsync(
+                    maTaiKhoan
+                );
+
+            if (taiKhoan == null)
             {
-                // ==========================================
-                // 6.1 KIỂM TRA DỮ LIỆU ĐẦU VÀO
-                // ==========================================
-
-                if (dto == null)
-                {
-                    return BadRequest(new
-                    {
-                        ThongBao =
-                            "Dữ liệu tạo tài khoản không hợp lệ!"
-                    });
-                }
-
-                if (string.IsNullOrWhiteSpace(dto.TenDangNhap) ||
-                    string.IsNullOrWhiteSpace(dto.MatKhau) ||
-                    string.IsNullOrWhiteSpace(dto.HoTen) ||
-                    string.IsNullOrWhiteSpace(dto.SoMay))
-                {
-                    return BadRequest(new
-                    {
-                        ThongBao =
-                            "Vui lòng nhập đầy đủ thông tin!"
-                    });
-                }
-
-
-                // ==========================================
-                // 6.2 KIỂM TRA TÊN ĐĂNG NHẬP
-                // ==========================================
-
-                bool tonTaiTenDangNhap =
-                    await _context.TaiKhoan
-                        .AnyAsync(x =>
-                            x.TenDangNhap ==
-                            dto.TenDangNhap);
-
-                if (tonTaiTenDangNhap)
-                {
-                    return BadRequest(new
-                    {
-                        ThongBao =
-                            "Tên đăng nhập đã tồn tại!"
-                    });
-                }
-
-
-                // ==========================================
-                // 6.3 KIỂM TRA EMAIL
-                // ==========================================
-
-                if (!string.IsNullOrWhiteSpace(dto.Email))
-                {
-                    bool tonTaiEmail =
-                        await _context.TaiKhoan
-                            .AnyAsync(x =>
-                                x.Email == dto.Email);
-
-                    if (tonTaiEmail)
-                    {
-                        return BadRequest(new
-                        {
-                            ThongBao =
-                                "Email đã được sử dụng!"
-                        });
-                    }
-                }
-
-
-                // ==========================================
-                // 6.4 KIỂM TRA SỐ MÁY
-                // ==========================================
-
-                var soMay = await _context.SoMayNoiBo
-                    .FirstOrDefaultAsync(x =>
-                        x.SoMay == dto.SoMay);
-
-                if (soMay == null)
-                {
-                    return BadRequest(new
-                    {
-                        ThongBao =
-                            "Số máy nội bộ không tồn tại!"
-                    });
-                }
-
-                if (soMay.MaTaiKhoan != null)
-                {
-                    return BadRequest(new
-                    {
-                        ThongBao =
-                            "Số máy này đã được cấp cho tài khoản khác!"
-                    });
-                }
-
-
-                // ==========================================
-                // 6.5 TẠO CẶP KHÓA RSA
-                // ==========================================
-
-                var capKhoaRSA =
-                    _rsaService.TaoCapKhoaRSA();
-
-
-                // ==========================================
-                // 6.6 BĂM MẬT KHẨU BẰNG BCRYPT
-                // ==========================================
-
-                string matKhauDaBam =
-                    BCrypt.Net.BCrypt.HashPassword(
-                        dto.MatKhau
-                    );
-
-
-                // ==========================================
-                // 6.7 TẠO TÀI KHOẢN NHÂN VIÊN
-                // ==========================================
-
-                var taiKhoan = new TaiKhoan
-                {
-                    TenDangNhap =
-                        dto.TenDangNhap,
-
-                    MatKhau =
-                        matKhauDaBam,
-
-                    HoTen =
-                        dto.HoTen,
-
-                    Email =
-                        string.IsNullOrWhiteSpace(dto.Email)
-                            ? null
-                            : dto.Email,
-
-                    VaiTro =
-                        "NhanVien",
-
-                    TrangThai =
-                        "HoatDong",
-
-                    SoLanDangNhapSai =
-                        0,
-
-                    NgayTao =
-                        DateTime.Now,
-
-                    // ======================================
-                    // CHỈ LƯU PUBLIC KEY TRÊN SERVER
-                    // ======================================
-
-                    PublicKeyRSA =
-                        capKhoaRSA.PublicKey
-                };
-
-                _context.TaiKhoan.Add(taiKhoan);
-
-                await _context.SaveChangesAsync();
-
-
-                // ==========================================
-                // 6.8 CẤP SỐ MÁY CHO NHÂN VIÊN
-                // ==========================================
-
-                soMay.MaTaiKhoan =
-                    taiKhoan.MaTaiKhoan;
-
-                soMay.TrangThai =
-                    "DaCap";
-
-                await _context.SaveChangesAsync();
-
-
-                // ==========================================
-                // 6.9 LẤY ID ADMIN ĐANG THỰC HIỆN
-                // ==========================================
-
-                var maAdminClaim =
-                    User.FindFirst(
-                        System.Security.Claims.ClaimTypes.NameIdentifier
-                    )?.Value;
-
-                int? maAdmin = null;
-
-                if (int.TryParse(
-                    maAdminClaim,
-                    out int idAdmin))
-                {
-                    maAdmin = idAdmin;
-                }
-
-
-                // ==========================================
-                // 6.10 GHI LOG
-                // ==========================================
-
-                var log = new LogHoatDong
-                {
-                    MaTaiKhoan =
-                        maAdmin,
-
-                    HanhDong =
-                        "TaoTaiKhoanNhanVien",
-
-                    ThoiGian =
-                        DateTime.Now,
-
-                    DiaChiIP =
-                        HttpContext.Connection
-                            .RemoteIpAddress?
-                            .ToString(),
-
-                    NoiDung =
-                        $"Admin tạo tài khoản {dto.TenDangNhap}, " +
-                        $"cấp số máy {dto.SoMay}",
-
-                    TrangThai =
-                        "ThanhCong"
-                };
-
-                _context.LogHoatDong.Add(log);
-
-                await _context.SaveChangesAsync();
-
-
-                // ==========================================
-                // 6.11 TRẢ KẾT QUẢ
-                // ==========================================
-                //
-                // Public Key có thể lưu trên server.
-                //
-                // Private Key KHÔNG lưu vào database.
-                //
-                // Private Key chỉ được trả về một lần
-                // để người được cấp tài khoản lưu giữ.
-                //
-                // ==========================================
-
-                return Ok(new
+                return NotFound(new
                 {
                     ThongBao =
-                        "Tạo tài khoản nhân viên thành công!",
-
-                    MaTaiKhoan =
-                        taiKhoan.MaTaiKhoan,
-
-                    TenDangNhap =
-                        taiKhoan.TenDangNhap,
-
-                    HoTen =
-                        taiKhoan.HoTen,
-
-                    SoMay =
-                        soMay.SoMay,
-
-                    VaiTro =
-                        taiKhoan.VaiTro,
-
-                    PublicKeyRSA =
-                        taiKhoan.PublicKeyRSA,
-
-                    PrivateKeyRSA =
-                        capKhoaRSA.PrivateKey
+                        "Không tìm thấy tài khoản!"
                 });
             }
-            catch (Exception)
+
+            taiKhoan.TrangThai = "HoatDong";
+            taiKhoan.SoLanDangNhapSai = 0;
+
+            var log = new LogHoatDong
             {
-                return StatusCode(500, new
+                MaTaiKhoan = maTaiKhoan,
+
+                HanhDong = "MO_KHOA_TAI_KHOAN",
+
+                ThoiGian = DateTime.UtcNow,
+
+                DiaChiIP =
+                    HttpContext.Connection
+                        .RemoteIpAddress?
+                        .ToString(),
+
+                NoiDung =
+                    $"Tài khoản {taiKhoan.TenDangNhap} được mở khóa.",
+
+                TrangThai = "ThanhCong"
+            };
+
+            _context.LogHoatDong.Add(log);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                ThongBao =
+                    "Mở khóa tài khoản thành công!"
+            });
+        }
+
+        // =========================================================
+        // 6. NHÂN VIÊN THIẾT LẬP CHỮ KÝ SỐ
+        // =========================================================
+        //
+        // Trình duyệt tạo:
+        //
+        // Public Key  -> gửi lên API này
+        // Private Key -> giữ ở phía nhân viên
+        //
+        // Server KHÔNG nhận:
+        // - Private Key
+        // - PIN ký số
+        //
+        // =========================================================
+        [Authorize(Roles = "NhanVien")]
+        [HttpPost("ThietLapChuKySo")]
+        public async Task<IActionResult> ThietLapChuKySo(
+            [FromBody] ThietLapChuKySoDTO dto)
+        {
+            // Lấy MaTaiKhoan từ JWT
+            string? maTaiKhoanClaim =
+                User.FindFirstValue(
+                    ClaimTypes.NameIdentifier
+                );
+
+            if (!int.TryParse(
+                maTaiKhoanClaim,
+                out int maTaiKhoan))
+            {
+                return Unauthorized(new
                 {
                     ThongBao =
-                        "Có lỗi xảy ra khi tạo tài khoản nhân viên!"
+                        "Không xác định được tài khoản đăng nhập!"
                 });
             }
+
+            // Kiểm tra Public Key
+            if (string.IsNullOrWhiteSpace(
+                dto.PublicKeyRSA))
+            {
+                return BadRequest(new
+                {
+                    ThongBao =
+                        "Public Key RSA không được để trống!"
+                });
+            }
+
+            // Tìm tài khoản hiện tại
+            var taiKhoan =
+                await _context.TaiKhoan.FindAsync(
+                    maTaiKhoan
+                );
+
+            if (taiKhoan == null)
+            {
+                return NotFound(new
+                {
+                    ThongBao =
+                        "Không tìm thấy tài khoản!"
+                });
+            }
+
+            // Kiểm tra trạng thái
+            if (taiKhoan.TrangThai != "HoatDong")
+            {
+                return BadRequest(new
+                {
+                    ThongBao =
+                        "Tài khoản hiện không hoạt động!"
+                });
+            }
+
+            // =====================================================
+            // Lưu Public Key RSA mới vào tài khoản
+            // =====================================================
+            taiKhoan.PublicKeyRSA =
+                dto.PublicKeyRSA;
+
+            // Ghi log
+            var log = new LogHoatDong
+            {
+                MaTaiKhoan = maTaiKhoan,
+
+                HanhDong =
+                    "THIET_LAP_CHU_KY_SO",
+
+                ThoiGian =
+                    DateTime.UtcNow,
+
+                DiaChiIP =
+                    HttpContext.Connection
+                        .RemoteIpAddress?
+                        .ToString(),
+
+                NoiDung =
+                    "Nhân viên thiết lập Public Key RSA cho chữ ký số.",
+
+                TrangThai =
+                    "ThanhCong"
+            };
+
+            _context.LogHoatDong.Add(log);
+
+            // Lưu database
+            await _context.SaveChangesAsync();
+
+            return Ok(new
+            {
+                ThongBao =
+                    "Thiết lập chữ ký số thành công!",
+
+                MaTaiKhoan =
+                    taiKhoan.MaTaiKhoan,
+
+                HoTen =
+                    taiKhoan.HoTen
+            });
         }
     }
 }

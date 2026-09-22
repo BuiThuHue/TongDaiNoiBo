@@ -21,6 +21,7 @@ namespace TongDaiNoiBo.Controllers
             _context = context;
         }
 
+
         // =========================================================
         // ĐĂNG NHẬP
         // POST: /api/DangNhap
@@ -32,43 +33,56 @@ namespace TongDaiNoiBo.Controllers
         {
             try
             {
-                // =====================================================
+                // =================================================
                 // 1. KIỂM TRA DỮ LIỆU
-                // =====================================================
+                // =================================================
 
                 if (dto == null)
                 {
                     return BadRequest(new
                     {
-                        ThongBao = "Dữ liệu đăng nhập không hợp lệ!"
+                        ThongBao =
+                            "Dữ liệu đăng nhập không hợp lệ!"
                     });
                 }
 
-                if (string.IsNullOrWhiteSpace(dto.TenDangNhap))
+                if (string.IsNullOrWhiteSpace(
+                    dto.TenDangNhap))
                 {
                     return BadRequest(new
                     {
-                        ThongBao = "Vui lòng nhập tên đăng nhập!"
+                        ThongBao =
+                            "Vui lòng nhập tên đăng nhập!"
                     });
                 }
 
-                if (string.IsNullOrWhiteSpace(dto.MatKhau))
+                if (string.IsNullOrWhiteSpace(
+                    dto.MatKhau))
                 {
                     return BadRequest(new
                     {
-                        ThongBao = "Vui lòng nhập mật khẩu!"
+                        ThongBao =
+                            "Vui lòng nhập mật khẩu!"
                     });
                 }
 
-                // =====================================================
+
+                // =================================================
                 // 2. TÌM TÀI KHOẢN
-                // =====================================================
+                // =================================================
 
                 var taiKhoan =
                     await _context.TaiKhoan
                         .FirstOrDefaultAsync(
-                            x => x.TenDangNhap == dto.TenDangNhap
+                            x =>
+                                x.TenDangNhap ==
+                                dto.TenDangNhap.Trim()
                         );
+
+
+                // =================================================
+                // 3. KHÔNG TÌM THẤY TÀI KHOẢN
+                // =================================================
 
                 if (taiKhoan == null)
                 {
@@ -79,9 +93,10 @@ namespace TongDaiNoiBo.Controllers
                     });
                 }
 
-                // =====================================================
-                // 3. KIỂM TRA TRẠNG THÁI
-                // =====================================================
+
+                // =================================================
+                // 4. KIỂM TRA TÀI KHOẢN
+                // =================================================
 
                 if (taiKhoan.TrangThai != "HoatDong")
                 {
@@ -94,17 +109,41 @@ namespace TongDaiNoiBo.Controllers
 
                     return Unauthorized(new
                     {
-                        ThongBao = "Tài khoản đã bị khóa!"
+                        ThongBao =
+                            "Tài khoản đã bị khóa!"
                     });
                 }
 
-                // =====================================================
-                // 4. KIỂM TRA MẬT KHẨU BCRYPT
-                // =====================================================
 
-                bool matKhauDung;
+                // =================================================
+                // 5. KIỂM TRA MẬT KHẨU
+                // =================================================
 
-                try
+                bool matKhauDung = false;
+
+                // -------------------------------------------------
+                // KIỂM TRA XEM MẬT KHẨU ĐÃ LÀ BCrypt CHƯA
+                // -------------------------------------------------
+
+                bool laBCrypt =
+                    !string.IsNullOrWhiteSpace(
+                        taiKhoan.MatKhau
+                    )
+                    &&
+                    (
+                        taiKhoan.MatKhau.StartsWith("$2a$")
+                        ||
+                        taiKhoan.MatKhau.StartsWith("$2b$")
+                        ||
+                        taiKhoan.MatKhau.StartsWith("$2y$")
+                    );
+
+
+                // =================================================
+                // 6. NẾU ĐÃ LÀ BCrypt
+                // =================================================
+
+                if (laBCrypt)
                 {
                     matKhauDung =
                         BCrypt.Net.BCrypt.Verify(
@@ -112,18 +151,50 @@ namespace TongDaiNoiBo.Controllers
                             taiKhoan.MatKhau
                         );
                 }
-                catch
+
+
+                // =================================================
+                // 7. NẾU DỮ LIỆU CŨ ĐANG LÀ MẬT KHẨU THƯỜNG
+                // =================================================
+
+                else
                 {
-                    matKhauDung = false;
+                    // ---------------------------------------------
+                    // So sánh mật khẩu người dùng nhập
+                    // với mật khẩu cũ trong SQL
+                    // ---------------------------------------------
+
+                    if (dto.MatKhau ==
+                        taiKhoan.MatKhau)
+                    {
+                        matKhauDung = true;
+
+                        // -----------------------------------------
+                        // ĐÚNG → TỰ ĐỘNG CHUYỂN SANG BCrypt
+                        // -----------------------------------------
+
+                        taiKhoan.MatKhau =
+                            BCrypt.Net.BCrypt.HashPassword(
+                                dto.MatKhau
+                            );
+
+                        await _context.SaveChangesAsync();
+                    }
                 }
 
-                // =====================================================
-                // 5. MẬT KHẨU SAI
-                // =====================================================
+
+                // =================================================
+                // 8. MẬT KHẨU SAI
+                // =================================================
 
                 if (!matKhauDung)
                 {
                     taiKhoan.SoLanDangNhapSai++;
+
+
+                    // ---------------------------------------------
+                    // SAI 3 LẦN → KHÓA
+                    // ---------------------------------------------
 
                     if (taiKhoan.SoLanDangNhapSai >= 3)
                     {
@@ -145,6 +216,7 @@ namespace TongDaiNoiBo.Controllers
                         });
                     }
 
+
                     await _context.SaveChangesAsync();
 
                     await GhiLog(
@@ -161,13 +233,19 @@ namespace TongDaiNoiBo.Controllers
                     });
                 }
 
-                // =====================================================
-                // 6. ĐĂNG NHẬP THÀNH CÔNG
-                // =====================================================
+
+                // =================================================
+                // 9. ĐĂNG NHẬP THÀNH CÔNG
+                // =================================================
 
                 taiKhoan.SoLanDangNhapSai = 0;
 
                 await _context.SaveChangesAsync();
+
+
+                // =================================================
+                // 10. GHI LOG
+                // =================================================
 
                 await GhiLog(
                     taiKhoan.MaTaiKhoan,
@@ -176,9 +254,10 @@ namespace TongDaiNoiBo.Controllers
                     "ThanhCong"
                 );
 
-                // =====================================================
-                // 7. TẠO JWT CLAIM
-                // =====================================================
+
+                // =================================================
+                // 11. TẠO CLAIM
+                // =================================================
 
                 var claims = new[]
                 {
@@ -203,15 +282,18 @@ namespace TongDaiNoiBo.Controllers
                     )
                 };
 
-                // =====================================================
-                // 8. TẠO KEY
-                // =====================================================
 
-                var key = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(
-                        "TongDaiNoiBo_Secure_Key_2026_VeryStrong!"
-                    )
-                );
+                // =================================================
+                // 12. KHÓA JWT
+                // =================================================
+
+                var key =
+                    new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(
+                            "TongDaiNoiBo_Secure_Key_2026_VeryStrong!"
+                        )
+                    );
+
 
                 var credentials =
                     new SigningCredentials(
@@ -219,42 +301,58 @@ namespace TongDaiNoiBo.Controllers
                         SecurityAlgorithms.HmacSha256
                     );
 
-                // =====================================================
-                // 9. TẠO TOKEN
-                // =====================================================
 
-                var token = new JwtSecurityToken(
-                    issuer: "TongDaiNoiBo",
-                    audience: "TongDaiNoiBoClient",
-                    claims: claims,
-                    expires: DateTime.UtcNow.AddHours(2),
-                    signingCredentials: credentials
-                );
+                // =================================================
+                // 13. TẠO TOKEN
+                // =================================================
 
-                string accessToken =
+                var token =
+                    new JwtSecurityToken(
+                        claims: claims,
+
+                        expires:
+                            DateTime.UtcNow.AddHours(2),
+
+                        signingCredentials:
+                            credentials
+                    );
+
+
+                // =================================================
+                // 14. CHUYỂN TOKEN THÀNH CHUỖI
+                // =================================================
+
+                var accessToken =
                     new JwtSecurityTokenHandler()
                         .WriteToken(token);
 
-                // =====================================================
-                // 10. TRẢ KẾT QUẢ
-                // =====================================================
+
+                // =================================================
+                // 15. TRẢ KẾT QUẢ
+                // =================================================
 
                 return Ok(new
                 {
-                    ThongBao = "Đăng nhập thành công!",
+                    ThongBao =
+                        "Đăng nhập thành công!",
 
-                    AccessToken = accessToken,
+                    AccessToken =
+                        accessToken,
 
-                    MaTaiKhoan = taiKhoan.MaTaiKhoan,
+                    MaTaiKhoan =
+                        taiKhoan.MaTaiKhoan,
 
-                    TenDangNhap = taiKhoan.TenDangNhap,
+                    TenDangNhap =
+                        taiKhoan.TenDangNhap,
 
-                    HoTen = taiKhoan.HoTen,
+                    HoTen =
+                        taiKhoan.HoTen,
 
-                    VaiTro = taiKhoan.VaiTro
+                    VaiTro =
+                        taiKhoan.VaiTro
                 });
             }
-            catch
+            catch (Exception)
             {
                 return StatusCode(500, new
                 {
@@ -264,8 +362,9 @@ namespace TongDaiNoiBo.Controllers
             }
         }
 
+
         // =========================================================
-        // GHI LOG
+        // HÀM GHI LOG
         // =========================================================
 
         private async Task GhiLog(
@@ -276,20 +375,25 @@ namespace TongDaiNoiBo.Controllers
         {
             var log = new LogHoatDong
             {
-                MaTaiKhoan = maTaiKhoan,
+                MaTaiKhoan =
+                    maTaiKhoan,
 
-                HanhDong = hanhDong,
+                HanhDong =
+                    hanhDong,
 
-                ThoiGian = DateTime.Now,
+                ThoiGian =
+                    DateTime.Now,
 
                 DiaChiIP =
                     HttpContext.Connection
                         .RemoteIpAddress?
                         .ToString(),
 
-                NoiDung = noiDung,
+                NoiDung =
+                    noiDung,
 
-                TrangThai = trangThai
+                TrangThai =
+                    trangThai
             };
 
             _context.LogHoatDong.Add(log);
