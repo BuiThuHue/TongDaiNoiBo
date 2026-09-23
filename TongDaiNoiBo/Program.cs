@@ -5,8 +5,10 @@ using Microsoft.OpenApi;
 using System.Text;
 using TongDaiNoiBo.Data;
 using TongDaiNoiBo.Security;
+using TongDaiNoiBo.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // =========================================================
 // 1. KẾT NỐI DATABASE MYSQL
@@ -49,6 +51,38 @@ builder.Services
                         )
                     )
             };
+
+        // =================================================
+        // CHO PHÉP SIGNALR NHẬN JWT TỪ QUERY STRING
+        // =================================================
+        //
+        // JavaScript SignalR Client sẽ kết nối:
+        //
+        // /callHub?access_token=JWT...
+        //
+        // SignalR/WebSocket cần đoạn này để [Authorize]
+        // trong CallHub nhận được JWT.
+        // =================================================
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken =
+                    context.Request.Query["access_token"];
+
+                var path =
+                    context.HttpContext.Request.Path;
+
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    path.StartsWithSegments("/callHub"))
+                {
+                    context.Token = accessToken;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
     });
 
 
@@ -74,7 +108,24 @@ builder.Services.AddControllers();
 
 
 // =========================================================
-// 6. SWAGGER
+// 6. SIGNALR
+// =========================================================
+//
+// SignalR dùng để trao đổi tín hiệu WebRTC:
+// - Offer
+// - Answer
+// - ICE Candidate
+// - Thông báo kết thúc cuộc gọi
+//
+// Âm thanh KHÔNG truyền qua SignalR.
+// Âm thanh sau này sẽ truyền bằng WebRTC.
+// =========================================================
+
+builder.Services.AddSignalR();
+
+
+// =========================================================
+// 7. SWAGGER
 // =========================================================
 
 builder.Services.AddEndpointsApiExplorer();
@@ -125,14 +176,14 @@ builder.Services.AddSwaggerGen(options =>
 
 
 // =========================================================
-// 7. BUILD APPLICATION
+// 8. BUILD APPLICATION
 // =========================================================
 
 var app = builder.Build();
 
 
 // =========================================================
-// 8. SWAGGER
+// 9. SWAGGER
 // =========================================================
 
 if (app.Environment.IsDevelopment())
@@ -144,7 +195,7 @@ if (app.Environment.IsDevelopment())
 
 
 // =========================================================
-// 9. FILE HTML / CSS / JS
+// 10. FILE HTML / CSS / JS
 // =========================================================
 
 app.UseDefaultFiles();
@@ -153,35 +204,53 @@ app.UseStaticFiles();
 
 
 // =========================================================
-// 10. HTTPS
+// 11. HTTPS
 // =========================================================
 
 app.UseHttpsRedirection();
 
 
 // =========================================================
-// 11. AUTHENTICATION
+// 12. AUTHENTICATION
 // =========================================================
 
 app.UseAuthentication();
 
 
 // =========================================================
-// 12. AUTHORIZATION
+// 13. AUTHORIZATION
 // =========================================================
 
 app.UseAuthorization();
 
 
 // =========================================================
-// 13. CONTROLLERS
+// 14. CONTROLLERS
 // =========================================================
 
 app.MapControllers();
 
 
 // =========================================================
-// 14. CHẠY
+// 15. SIGNALR HUB
+// =========================================================
+//
+// JavaScript sẽ kết nối đến:
+//
+// /callHub
+//
+// Ví dụ:
+// const connection = new signalR.HubConnectionBuilder()
+//     .withUrl("/callHub", ...)
+//     .build();
+//
+// =========================================================
+
+app.MapHub<CallHub>("/callHub");
+
+
+// =========================================================
+// 16. CHẠY
 // =========================================================
 
 app.Run();
